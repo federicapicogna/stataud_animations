@@ -9,5 +9,5 @@ To render the videos on your own computer, make sure that you have a working ver
 If you have a working setup, open a terminal in the project folder and type the following command. This will render the scene using low quality (`-ql`) and will preview it when it is done (`-p`). The videos will have to be rendered locally because they are too large to put in an online repository.
 
 ```
-manim -pql scene.py
+manim -ql -p scene.py
 ```
