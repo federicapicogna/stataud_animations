@@ -144,7 +144,7 @@ class Planning(Scene):
 
 		self.play(Write(title))
 		self.wait()
-		self.play(Create(axes))
+		self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
 		self.play(Write(xlab))
 		self.play(Write(ylab))
 		self.wait()
@@ -423,10 +423,10 @@ class Planning(Scene):
 		axes_dr.next_to(axes_ur, DOWN)
 
 		self.play(
-			Create(axes_ul),
-			Create(axes_ur),
-			Create(axes_dl),
-			Create(axes_dr)
+			AnimationGroup(Create(axes_ul.x_axis), Create(axes_ul.y_axis), lag_ratio = 0),
+			AnimationGroup(Create(axes_ur.x_axis), Create(axes_ur.y_axis), lag_ratio = 0),
+			AnimationGroup(Create(axes_dl.x_axis), Create(axes_dl.y_axis), lag_ratio = 0),
+			AnimationGroup(Create(axes_dr.x_axis), Create(axes_dr.y_axis), lag_ratio = 0)
 		)
 
 		# Distribution top left
@@ -617,3 +617,8 @@ class Planning(Scene):
 
 		self.play(Write(takehomepoints))
 		self.wait(2)
+
+		self.play(
+			FadeOut(title),
+			FadeOut(takehomepoints)
+		)
