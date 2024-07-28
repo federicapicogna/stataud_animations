@@ -7,31 +7,38 @@ class Planning(Scene):
 
 		# SCENE 1: VIDEO TITLE #################################################
 
-		vid_title = Text("Statistical Auditing", font_size = 75)
-		vid_subtitle = Text("Planning a Minimum Sample Size for Testing", font_size=40)
-		vid_subtitle.next_to(vid_title, DOWN)
+		title = Text("Statistical Auditing", font_size = 75)
+		subtitle = Text("Planning a Minimum Sample Size for Testing", font_size=40)
+		subtitle.next_to(title, DOWN)
 
-		self.play(AnimationGroup(Write(vid_title), Write(vid_subtitle), lag_ratio = 1))
+		self.play(AnimationGroup(Write(title), Write(subtitle), lag_ratio = 1))
 		self.wait(1)
 
 		# Clear the scene
-		self.play(FadeOut(vid_title), FadeOut(vid_subtitle))
+		self.play(
+			FadeOut(title),
+			FadeOut(subtitle)
+		)
 		self.next_section(skip_animations=False)
 
 		# SCENE 2: BAYESIAN UPDATING CYCLE #####################################
 
-		frame_title = Text("Bayesian statistics: From prior to posterior", color=WHITE, font_size=40).shift(UP*3)
+		title = Text("Bayesian statistics: From prior to posterior", color=WHITE, font_size=40)
+		title.shift(UP*3)
 
-		self.play(Write(frame_title))
+		self.play(Write(title))
 
-		circle_prior = Circle(color=BLUE, radius=1.35).shift(UP * 2)
+		circle_prior = Circle(color=BLUE, radius=1.35)
+		circle_prior.next_to(title, DOWN)
 		circle_prior.set_fill(BLUE, opacity=0.25)
-		circle_prior.next_to(frame_title, DOWN)
 
 		circle_prior_text = Text("Prior")
 		circle_prior_text.move_to(circle_prior)
 
-		self.play(Create(circle_prior), Write(circle_prior_text))
+		self.play(
+			Create(circle_prior),
+			Write(circle_prior_text)
+		)
 
 		circle_data = Circle(color=BLUE, radius = 1.35)
 		circle_data.set_fill(BLUE, opacity=0.25)
@@ -40,7 +47,10 @@ class Planning(Scene):
 		circle_data_text = Text("Data")
 		circle_data_text.move_to(circle_data)
 
-		self.play(Create(circle_data), Write(circle_data_text))
+		self.play(
+			Create(circle_data),
+			Write(circle_data_text)
+		)
 
 		circle_post = Circle(color=BLUE, radius=1.35)
 		circle_post.set_fill(BLUE, opacity=0.25)
@@ -49,7 +59,10 @@ class Planning(Scene):
 		circle_post_text = Text("Posterior")
 		circle_post_text.move_to(circle_post)
 
-		self.play(Create(circle_post), Write(circle_post_text))
+		self.play(
+			Create(circle_post),
+			Write(circle_post_text)
+		)
 
 		arrow_prior_to_data = Arrow(start=circle_prior.get_center(), end=circle_data.get_center(), buff=1.5, color=YELLOW)
 		arrow_data_to_post = Arrow(start=circle_data.get_center(), end=circle_post.get_center(), buff=1.5, color=YELLOW)
@@ -59,19 +72,31 @@ class Planning(Scene):
 			if i == 0:
 				self.play(Create(arrow_prior_to_data))
 			else:
-				self.play(Create(arrow_prior_to_data), FadeOut(arrow_post_to_prior))
-			self.play(Create(arrow_data_to_post), FadeOut(arrow_prior_to_data))
+				self.play(
+					Create(arrow_prior_to_data),
+					FadeOut(arrow_post_to_prior)
+				)
+			self.play(
+				Create(arrow_data_to_post),
+				FadeOut(arrow_prior_to_data)
+			)
 			if i < 2:
-				self.play(Create(arrow_post_to_prior), FadeOut(arrow_data_to_post))
+				self.play(
+					Create(arrow_post_to_prior),
+					FadeOut(arrow_data_to_post)
+				)
 			else:
 				self.play(FadeOut(arrow_data_to_post))
 
 		# Clear the scene
 		self.play(
-			FadeOut(frame_title), 
-			FadeOut(VGroup(circle_prior, circle_prior_text)), 
-			FadeOut(VGroup(circle_data, circle_data_text)), 
-			FadeOut(VGroup(circle_post, circle_post_text))
+			FadeOut(title),
+			FadeOut(circle_prior),
+			FadeOut(circle_prior_text),
+			FadeOut(circle_data),
+			FadeOut(circle_data_text),
+			FadeOut(circle_post),
+			FadeOut(circle_post_text)
 		)
 		self.next_section(skip_animations=False)
 		
@@ -209,12 +234,15 @@ class Planning(Scene):
 		self.play(FadeOut(caption))
 
 		# Change the title above the graph
-		title_post = Text("Posterior distribution", font_size=50)
-		title_post.next_to(axes_short, UP)
+		new_title = Text("Posterior distribution", font_size=50)
+		new_title.move_to(title)
 		caption = Tex("Sample size ($n$) = 0\\hspace{0.35cm}Misstatements ($k$) = 0", font_size=40)
-		caption.next_to(title_post, DOWN)
+		caption.next_to(title, DOWN)
 
-		self.play(Transform(title, title_post), Create(caption))
+		self.play(
+			Transform(title, new_title),
+			Create(caption)
+		)
 		self.wait(1)
 
 		# Slowly update the prior into the posterior until n = 9
@@ -233,13 +261,13 @@ class Planning(Scene):
 			post_ub_text.next_to(post_line_ub, RIGHT)
 			post_area = axes_long.get_area(posterior, x_range=(0, post_ub), color=BLUE, opacity = 0.25)
 			new_caption = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), font_size=40)
-			new_caption.next_to(title_post, DOWN)
+			new_caption.move_to(caption)
 			post_label = Tex("beta($\\alpha$ = " + str(post_a) + ", $\\beta$ = " + str(post_b) + ")", font_size = 35)
 			post_label.move_to(prior_label)
 
 			self.play(
 				ReplacementTransform(prior, posterior), 
-				ReplacementTransform(caption, new_caption), 
+				Transform(caption, new_caption), 
 				ReplacementTransform(prior_label, post_label), 
 				ReplacementTransform(prior_area, post_area),
 				ReplacementTransform(line_ub, post_line_ub),
@@ -248,7 +276,6 @@ class Planning(Scene):
 			)
 
 			prior = posterior
-			caption = new_caption
 			prior_label = post_label
 			prior_area = post_area
 			line_ub = post_line_ub
@@ -272,13 +299,13 @@ class Planning(Scene):
 			post_ub_text.next_to(post_line_ub, RIGHT)
 			post_area = axes_short.get_area(posterior, x_range=(0, post_ub), color=BLUE, opacity = 0.25)
 			new_caption = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.25cm}Misstatements ($k$) = " + str(k), font_size=40)
-			new_caption.next_to(title_post, DOWN)
+			new_caption.move_to(caption)
 			post_label = Tex("beta($\\alpha$ = " + str(post_a) + ", $\\beta$ = " + str(post_b) + ")", font_size = 35)
 			post_label.move_to(prior_label)
 
 			self.play(
 				ReplacementTransform(prior, posterior), 
-				ReplacementTransform(caption, new_caption), 
+				Transform(caption, new_caption), 
 				ReplacementTransform(prior_label, post_label), 
 				ReplacementTransform(prior_area, post_area),
 				ReplacementTransform(line_ub, post_line_ub),
@@ -287,7 +314,6 @@ class Planning(Scene):
 			)
 
 			prior = posterior
-			caption = new_caption
 			prior_label = post_label
 			prior_area = post_area
 			line_ub = post_line_ub
@@ -351,17 +377,25 @@ class Planning(Scene):
 		self.wait(2)
 
 		# Clear the scene
-		self.play(FadeOut(VGroup(title_post, posterior_zoom, post_area_zoom, axes_zoom, line_mat_zoom, mat_text_zoom_conc, oth_text_zoom_conc, ub_text_zoom_conc, line_ub_zoom)))
+		self.play(FadeOut(VGroup(axes_zoom, sample_size_rect, title, caption, posterior_zoom, post_area_zoom, axes_zoom, line_mat_zoom, mat_text_zoom_conc, oth_text_zoom_conc, ub_text_zoom_conc, line_ub_zoom)))
 		self.next_section(skip_animations=False)
 
 		# SCENE 4: PLANNING WITH AN IMPARTIAL PRIOR ############################
 
-		self.play(AnimationGroup(Create(axes_long.x_axis), Create(axes_long.y_axis), lag_ratio=0), run_time = 1.5)
-		self.play(Write(xlab))
-		self.play(Write(ylab))
+		axes_long = Axes(
+			x_range=[0, 1, 0.1],
+			y_range=[0, 50, 10],
+			axis_config={
+				"color": YELLOW,
+				"include_ticks": True,
+				"include_numbers": True
+			},
+			tips = False
+		).scale(0.9)
 
-		title = Text("Impartial prior distribution", font_size=40)
-		title.next_to(axes_long, UP)
+		self.play(AnimationGroup(Create(axes_long.x_axis), Create(axes_long.y_axis), lag_ratio=0), run_time = 1.5)
+
+		title = Text("Impartial prior distribution", font_size=40).next_to(axes_long, UP)
 
 		self.play(Create(title))
 		self.wait(1)
