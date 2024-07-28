@@ -1,6 +1,6 @@
 from manim import *
 import numpy as np
-from scipy.stats import beta
+import scipy.stats as stats
 
 class Planning(Scene):
 	def construct(self):
@@ -103,7 +103,7 @@ class Planning(Scene):
 
 		# Add the prior distribution
 		prior_a, prior_b = 1, 1
-		distribution = axes.plot(lambda x: beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
+		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
 		self.play(Create(distribution), run_time = 2)
 
@@ -133,7 +133,7 @@ class Planning(Scene):
 		self.wait(1)
 
 		# Change into 0.95 percent probablity area
-		ub = beta.ppf(0.95, prior_a, prior_b)
+		ub = stats.beta.ppf(0.95, prior_a, prior_b)
 		new_area = axes.get_area(distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
 		new_area_text.move_to(area_text)
@@ -164,7 +164,7 @@ class Planning(Scene):
 		# Extend the y-axis, adjust the position of the prior and the label
 		new_axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		new_axes.scale(0.9)
-		new_distribution = new_axes.plot(lambda x: beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
+		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 		new_label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
@@ -214,8 +214,8 @@ class Planning(Scene):
 				k = k + 1
 			post_a = prior_a + k
 			post_b = prior_b + n - k
-			new_distribution = axes.plot(lambda x: beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
-			ub = beta.ppf(0.95, post_a, post_b)
+			new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
+			ub = stats.beta.ppf(0.95, post_a, post_b)
 			point_ub = axes.coords_to_point(ub, 30)
 			new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 			new_text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
@@ -246,8 +246,8 @@ class Planning(Scene):
 			n = n + 1
 			post_a = prior_a + k
 			post_b = prior_b + n - k
-			new_distribution = axes.plot(lambda x: beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
-			ub = beta.ppf(0.95, post_a, post_b)
+			new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
+			ub = stats.beta.ppf(0.95, post_a, post_b)
 			point_ub = axes.coords_to_point(ub, 30)
 			new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 			new_text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
@@ -276,7 +276,7 @@ class Planning(Scene):
 		# Zoom into the posterior distribution
 		new_axes = Axes(x_range = [0, 0.1, 0.01], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		new_axes.scale(0.9)
-		new_distribution = new_axes.plot(lambda x: beta.pdf(x, post_a, post_b), x_range = (0, 0.1, 0.001), color = WHITE)
+		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 0.1, 0.001), color = WHITE)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 		new_point_ub = new_axes.coords_to_point(ub, 30)
 		new_line_ub = new_axes.get_vertical_line(new_point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
