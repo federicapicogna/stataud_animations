@@ -9,7 +9,7 @@ To render the videos on your own computer, make sure that you have a working ver
 If you have a working setup, open a terminal in the project folder and type the following command. It will prompt you to choose which scene you want to render. Once specified, this will render the scene using low quality (`-ql`) and will preview it when it is done (`-p`). You should remove the `-ql` flag when rednering the final version of the video.
 
 ```
-python3 -m manim -ql -p scene.py
+python3 -m manim -ql -p scene.py --disable_caching
 ```
 
 ### Rendering a full video

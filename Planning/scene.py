@@ -13,23 +13,21 @@ class Title(VoiceoverScene):
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
 		
-		with self.voiceover(text="Hi there.") as tracker:
+		with self.voiceover(text="Hi.") as tracker:
 			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle
 		subtitle = Text("Bayesian Sample Sizes for Testing", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover(text="In this clip we discuss how to calculate a sample size for a statistical audit sample using Bayesian statistics.") as tracker:
+		with self.voiceover("In this clip I will explain how to calculate a sample size for a statistical audit sample using Bayesian statistics.") as tracker:
 			self.play(Write(subtitle))
-			self.wait()
 
 		# Clear the scene
 		self.play(
 			FadeOut(title),
 			FadeOut(subtitle)
 		)
-		self.wait()
 
 # SCENE 2: CONTENTS ############################################################
 class Contents(VoiceoverScene):
@@ -40,7 +38,7 @@ class Contents(VoiceoverScene):
 		title = Text("Contents", color = WHITE, font_size = 40)
 		title.shift(UP * 3.5)
 
-		with self.voiceover(text="I will explain the following subjects to you.") as tracker:
+		with self.voiceover("I will explain the following subjects to you.") as tracker:
 			self.play(Write(title))
 
 		# Contents
@@ -54,7 +52,7 @@ class Contents(VoiceoverScene):
 		contents.shift(DOWN)
 		contents.shift(LEFT * 3)
 
-		with self.voiceover(text="First, I will discuss the Bayesian updating cycle. Next, I show you an example of a uniform prior distribution. Finally, I demonstrate the effect of the prior distribution on the sample size.") as tracker:
+		with self.voiceover("First, I will discuss the Bayesian updating cycle. Next, I show you an example of a uniform prior distribution. Finally, I demonstrate the effect of the prior distribution on the sample size.") as tracker:
 			self.play(Write(contents))
 
 		# Clear the scene
@@ -62,7 +60,6 @@ class Contents(VoiceoverScene):
 			FadeOut(title),
 			FadeOut(contents)
 		)
-		self.wait()
 
 # SCENE 3: BAYESIAN UPDATING CYCLE #############################################
 class BayesianUpdatingCycle(VoiceoverScene):
@@ -73,7 +70,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		title = Text("The Bayesian updating cycle", color = WHITE, font_size = 40)
 		title.shift(UP * 3.5)
 
-		with self.voiceover(text="Let me give you a brief introduction to Bayesian statistics.") as tracker:
+		with self.voiceover("Let me give you a brief introduction to Bayesian statistics.") as tracker:
 			self.play(Write(title), run_time = 1)
 
 		# Top circle
@@ -83,10 +80,15 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_prior_text = Text("Prior")
 		circle_prior_text.move_to(circle_prior)
 
-		with self.voiceover(text="The idea of Bayesian statistics is that you start by formulating your pre-existing information as a prior distribution, or simply a prior.") as tracker:
+		# Sample size text
+		label = Tex("$n$ = 0", font_size = 60)
+		label.next_to(circle_prior, RIGHT * 6)
+
+		with self.voiceover("The idea of Bayesian statistics is that you start by formulating your pre-existing information as a prior distribution, or simply a prior.") as tracker:
 			self.play(
 				Create(circle_prior),
-				Write(circle_prior_text)
+				Write(circle_prior_text),
+				Write(label)
 			)
 
 		# Bottom right circle
@@ -95,11 +97,16 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_data.next_to(circle_prior, DR * 2)
 		circle_data_text = Text("Data")
 		circle_data_text.move_to(circle_data)
+
+		# Update label
+		new_label = Tex("$n$ = 1", font_size = 60)
+		new_label.move_to(label)
 		
-		with self.voiceover(text="Next, suppose that you observe some data from an audit sample.") as tracker:
+		with self.voiceover("Next, suppose that you observe some data from an audit sample.") as tracker:
 			self.play(
 				Create(circle_data),
-				Write(circle_data_text)
+				Write(circle_data_text),
+				Transform(label, new_label)
 			)
 
 		# Bottom left circle
@@ -109,7 +116,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_post_text = Text("Posterior")
 		circle_post_text.move_to(circle_post)
 
-		with self.voiceover(text="Using the sample data, you can update your prior distribution to a posterior distribution. This posterior distribution is represents your updated knowledge.") as tracker:
+		with self.voiceover("Using the sample data, you can update your prior distribution to a posterior distribution. This posterior distribution represents your updated knowledge.") as tracker:
 			self.play(
 				Create(circle_post),
 				Write(circle_post_text)
@@ -120,8 +127,13 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		arrow_data_post = Arrow(start = circle_data.get_center(), end = circle_post.get_center(), buff = 1.5, color = YELLOW)
 		arrow_post_prior = Arrow(start = circle_post.get_center(), end = circle_prior.get_center(), buff = 1.5, color = YELLOW)
 
-		with self.voiceover(text="The posterior distribution is the prior distribution for the next data point. When we observe more data, the whole process of updating the prior distribution to a posterior distribution is repeated. This is called the Bayesian learning cycle.") as tracker:
-			for i in range(3):
+		with self.voiceover("The posterior distribution is the prior distribution for the next data point. When we observe more data, the whole process of updating the prior distribution to a posterior distribution is repeated. This is called the Bayesian learning cycle.") as tracker:
+			n = 1
+			for i in range(5):
+				n = n + 1
+				new_label = Tex("$n$ = " + str(n), font_size = 60)
+				new_label.move_to(label)
+
 				if i == 0:
 					self.play(Create(arrow_prior_data))
 				else:
@@ -130,10 +142,11 @@ class BayesianUpdatingCycle(VoiceoverScene):
 						FadeOut(arrow_post_prior)
 					)
 				self.play(
+					Transform(label, new_label),
 					Create(arrow_data_post),
 					FadeOut(arrow_prior_data)
 				)
-				if i < 2:
+				if i < 4:
 					self.play(
 						Create(arrow_post_prior),
 						FadeOut(arrow_data_post)
@@ -144,6 +157,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		# Clear the scene
 		self.play(
 			FadeOut(title),
+			FadeOut(label),
 			FadeOut(circle_prior),
 			FadeOut(circle_prior_text),
 			FadeOut(circle_data),
@@ -151,7 +165,6 @@ class BayesianUpdatingCycle(VoiceoverScene):
 			FadeOut(circle_post),
 			FadeOut(circle_post_text)
 		)
-		self.wait()
 
 # SCENE 3: PLANNING WITH A UNIFORM PRIOR #######################################
 class UniformPrior(VoiceoverScene):
@@ -166,7 +179,7 @@ class UniformPrior(VoiceoverScene):
 		title = Text("The uniform prior distribution", font_size = 40)
 		title.shift(UP * 3.5)
 
-		with self.voiceover(text="Let's take a look at a common prior distribution: the uniform prior distribution.") as tracker:
+		with self.voiceover("First, I will show you a common prior distribution: the uniform prior distribution.") as tracker:
 			self.play(Write(title))
 			self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
 			self.play(Write(xlab))
@@ -176,65 +189,70 @@ class UniformPrior(VoiceoverScene):
 		prior_a, prior_b = 1, 1
 		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
-		with self.voiceover(text="Here you can see the uniform distribution as a solid line. As you can see, it represents the prior information that every value of the population misstatement is equally likely before seeing any data.") as tracker:
+		with self.voiceover("Here you can see the uniform prior distribution as a solid line. Because it has a density of 1 at all values, it represents the prior information that every value of the population misstatement is equally likely before seeing any data.") as tracker:
 			self.play(Create(distribution))
 
 		# Label
 		label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		label.next_to(distribution, UP)
 
-		with self.voiceover(text="Specifically, this prior distribution is a beta distribution with parameters one and one.") as tracker:
+		with self.voiceover("Specifically, this prior distribution is a beta distribution with shape parameters 1 and 1.") as tracker:
 			self.play(Write(label))
 
 		# Subtitle (probability)
 		subtitle = Tex("Probability is represented by area under the curve ($p$)", font_size = 40, color = BLUE)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover(text="The area under the prior distribution represents the probability of a value of the misstatement occurring.") as tracker:
+		with self.voiceover("The area under the prior distribution represents the probability of a range of values of the misstatement occurring.") as tracker:
 			self.play(Write(subtitle))
 
 		# Shaded area
 		area = axes.get_area(distribution, x_range = (0, 1), color = BLUE, opacity = 0.25)
 
-		with self.voiceover(text="For example, the total probability of observing any value of the misstatement is equal to one.") as tracker:
-			self.play(Create(area), run_time = 1.5)
-
 		# Shaded area text
 		area_text = Tex("$p$ = 1", font_size = 40)
 		area_text.move_to(area)
 
-		self.play(Write(area_text))
-		self.wait()
+		with self.voiceover("For example, the total probability of observing any value of the misstatement is equal to 1.") as tracker:
+			self.play(Create(area))
+			self.play(Write(area_text))
 
 		# Update shaded area text
 		ub = stats.beta.ppf(0.95, prior_a, prior_b)
 		new_area = axes.get_area(distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
+
+		# Update the area text
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
 		new_area_text.move_to(area_text)
 
-		self.play(Transform(area_text, new_area_text), Transform(area, new_area))
-		self.wait(0.5)
-		self.play(FadeOut(subtitle))
+		with self.voiceover("By looking at a smaller range of values for the misstatement, the probability of observing these values is adjusted accordingly. For instance, the probability under the area you see now is 95 percent.") as tracker:
+			self.play(Transform(area_text, new_area_text), Transform(area, new_area))
+			self.wait(0.5)
+			self.play(FadeOut(subtitle))
 
 		# Subtitle (upper bound)
 		subtitle = Tex("95 percent upper bound ($\\theta_{95}$)", font_size = 40, color = BLUE)
 		subtitle.next_to(title, DOWN)
 
-		self.play(Write(subtitle))
+		with self.voiceover("The value of the misstatement below which the probability of occurrance is 95 percent can be seen as an upper bound for the misstatement.") as tracker:
+			self.play(Write(subtitle))
 
 		# Line (upper bound)
 		point_ub = axes.coords_to_point(ub, 3)
 		line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 
-		self.play(Create(line_ub))
-
 		# Upper bound text
 		text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
 		text_ub.next_to(line_ub, RIGHT)
 
-		self.play(Write(text_ub))
-		self.wait(1.5)
-		self.play(FadeOut(area_text), FadeOut(subtitle))
+		with self.voiceover("I will indicate this 95 percent upper bound with a blue line.") as tracker:
+			self.play(Create(line_ub))
+			self.play(Write(text_ub))
+
+		self.play(
+			FadeOut(area_text),
+			FadeOut(subtitle)
+		)
 
 		# Extend the y-axis
 		new_axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
@@ -244,14 +262,14 @@ class UniformPrior(VoiceoverScene):
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 
-		self.play(
-			ReplacementTransform(axes, new_axes),
-			Transform(distribution, new_distribution),
-			Transform(label, new_label),
-			Transform(area, new_area)
-		)
+		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the y-axis.") as tracker:
+			self.play(
+				ReplacementTransform(axes, new_axes),
+				Transform(distribution, new_distribution),
+				Transform(label, new_label),
+				Transform(area, new_area)
+			)
 		axes = new_axes
-		self.wait()
 
 		# Subtitle (performance materiality)
 		subtitle = Tex("Performance materiality ($\\theta_{max}$)", font_size = 40, color = RED)
