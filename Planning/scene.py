@@ -2,10 +2,9 @@ from manim import *
 import numpy as np
 import scipy.stats as stats
 
-class Planning(Scene):
+# SCENE 1: VIDEO TITLE ########################################################
+class Title(Scene):
 	def construct(self):
-
-		# SCENE 1: VIDEO TITLE #################################################
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
@@ -24,9 +23,9 @@ class Planning(Scene):
 		)
 		self.wait()
 
-		# SCENE 2: CONTENTS ####################################################
-
-		self.next_section(skip_animations = False)
+# SCENE 2: CONTENTS ############################################################
+class Contents(Scene):
+	def construct(self):
 
 		# Title
 		title = Text("Contents", color = WHITE, font_size = 40)
@@ -37,8 +36,8 @@ class Planning(Scene):
 		# Contents
 		contents = VGroup(
 			Text("1. The Bayesian updating cycle", font_size = 35),
-			Text("2. Uniform prior distribution", font_size = 35),
-			Text("3. Other prior distributions", font_size = 35)
+			Text("2. The uniform prior distribution", font_size = 35),
+			Text("3. The effect of the prior distribution", font_size = 35)
 		)
 		contents.arrange(DOWN, aligned_edge=LEFT)
 		contents.next_to(title, DOWN)
@@ -55,9 +54,9 @@ class Planning(Scene):
 		)
 		self.wait()
 
-		# SCENE 3: BAYESIAN UPDATING CYCLE #####################################
-
-		self.next_section(skip_animations = False)
+# SCENE 3: BAYESIAN UPDATING CYCLE #############################################
+class BayesianUpdatingCycle(Scene):
+	def construct(self):
 
 		# Title
 		title = Text("The Bayesian updating cycle", color = WHITE, font_size = 40)
@@ -129,17 +128,17 @@ class Planning(Scene):
 			FadeOut(circle_post_text),
 		)
 		self.wait()
-		
-		# SCENE 3: PLANNING WITH A UNIFORM PRIOR ###############################
 
-		self.next_section(skip_animations = False)
+# SCENE 3: PLANNING WITH A UNIFORM PRIOR #######################################
+class UniformPrior(Scene):
+	def construct(self):
 
 		# Axes
 		axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 4, 1], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		axes.scale(0.9)
 		xlab = axes.get_x_axis_label(Tex("Population misstatement $\\theta$").scale(0.75), edge = DOWN, direction = DOWN, buff = 0.5)
 		ylab = axes.get_y_axis_label(Text("Density").scale(0.55).rotate(90 * DEGREES), edge = LEFT, direction = LEFT, buff = 0.3)
-		title = Text("Uniform prior distribution", font_size = 40)
+		title = Text("The uniform prior distribution", font_size = 40)
 		title.shift(UP * 3.5)
 
 		self.play(Write(title))
@@ -383,15 +382,16 @@ class Planning(Scene):
 		)
 		self.wait()
 		
-		# SCENE 4: PLANNING WITH OTHER PRIORS ##################################
 
-		self.next_section(skip_animations = False)
+# SCENE 4: THE EFFECT OF THE PRIOR #############################################
+class UniformPrior(Scene):
+	def construct(self):
 
 		# Data
 		n, k = 0, 0
 
 		# Title
-		title = Text("Other prior distributions", color = WHITE, font_size = 40)
+		title = Text("The effect of the prior", color = WHITE, font_size = 40)
 		title.shift(UP * 3.5)
 
 		self.play(Write(title))
@@ -586,9 +586,9 @@ class Planning(Scene):
 		)
 		self.wait()
 
-		# SCENE 5: TAKE HOME POINTS ############################################
-
-		self.next_section(skip_animations = False)
+# SCENE 5: TAKE HOME POINTS ####################################################
+class TakeHomePoints(Scene):
+	def construct(self):
 
 		# Title
 		title = Text("Take home points", color = WHITE, font_size = 40)
