@@ -262,7 +262,7 @@ class UniformPrior(VoiceoverScene):
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 
-		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the y-axis.") as tracker:
+		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the vertial axis.") as tracker:
 			self.play(
 				ReplacementTransform(axes, new_axes),
 				Transform(distribution, new_distribution),
