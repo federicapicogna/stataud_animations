@@ -12,6 +12,7 @@ class Title(VoiceoverScene):
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
+		
 		with self.voiceover(text="Hi there.") as tracker:
 			self.play(Write(title), run_time = tracker.duration)
 
@@ -21,7 +22,7 @@ class Title(VoiceoverScene):
 
 		with self.voiceover(text="In this clip we discuss how to calculate a sample size for a statistical audit sample using Bayesian statistics.") as tracker:
 			self.play(Write(subtitle))
-		self.wait()
+			self.wait()
 
 		# Clear the scene
 		self.play(
@@ -31,14 +32,16 @@ class Title(VoiceoverScene):
 		self.wait()
 
 # SCENE 2: CONTENTS ############################################################
-class Contents(Scene):
+class Contents(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Title
 		title = Text("Contents", color = WHITE, font_size = 40)
 		title.shift(UP * 3.5)
 
-		self.play(Write(title))
+		with self.voiceover(text="I will explain the following subjects to you.") as tracker:
+			self.play(Write(title))
 
 		# Contents
 		contents = VGroup(
@@ -51,8 +54,8 @@ class Contents(Scene):
 		contents.shift(DOWN)
 		contents.shift(LEFT * 3)
 
-		self.play(Write(contents))
-		self.wait(2)
+		with self.voiceover(text="First, I will discuss the Bayesian updating cycle. Next, I show you an example of a uniform prior distribution. Finally, I demonstrate the effect of the prior distribution on the sample size.") as tracker:
+			self.play(Write(contents))
 
 		# Clear the scene
 		self.play(
@@ -62,8 +65,9 @@ class Contents(Scene):
 		self.wait()
 
 # SCENE 3: BAYESIAN UPDATING CYCLE #############################################
-class BayesianUpdatingCycle(Scene):
+class BayesianUpdatingCycle(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Title
 		title = Text("The Bayesian updating cycle", color = WHITE, font_size = 40)
@@ -137,8 +141,9 @@ class BayesianUpdatingCycle(Scene):
 		self.wait()
 
 # SCENE 3: PLANNING WITH A UNIFORM PRIOR #######################################
-class UniformPrior(Scene):
+class UniformPrior(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Axes
 		axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 4, 1], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
@@ -391,8 +396,9 @@ class UniformPrior(Scene):
 		
 
 # SCENE 4: THE EFFECT OF THE PRIOR #############################################
-class EffectOfPrior(Scene):
+class EffectOfPrior(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Data
 		n, k = 0, 0
@@ -594,8 +600,9 @@ class EffectOfPrior(Scene):
 		self.wait()
 
 # SCENE 5: TAKE HOME POINTS ####################################################
-class TakeHomePoints(Scene):
+class TakeHomePoints(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Title
 		title = Text("Take home points", color = WHITE, font_size = 40)
