@@ -46,7 +46,7 @@ class Contents(Scene):
 			Text("2. The uniform prior distribution", font_size = 35),
 			Text("3. The effect of the prior distribution", font_size = 35)
 		)
-		contents.arrange(DOWN, aligned_edge=LEFT)
+		contents.arrange(DOWN, aligned_edge = LEFT)
 		contents.next_to(title, DOWN)
 		contents.shift(DOWN)
 		contents.shift(LEFT * 3)
