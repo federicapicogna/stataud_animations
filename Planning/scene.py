@@ -132,7 +132,7 @@ class BayesianUpdatingCycle(Scene):
 			FadeOut(circle_data),
 			FadeOut(circle_data_text),
 			FadeOut(circle_post),
-			FadeOut(circle_post_text),
+			FadeOut(circle_post_text)
 		)
 		self.wait()
 
