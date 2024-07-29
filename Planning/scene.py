@@ -73,8 +73,8 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		title = Text("The Bayesian updating cycle", color = WHITE, font_size = 40)
 		title.shift(UP * 3.5)
 
-		self.play(Write(title), run_time = 1)
-		self.wait()
+		with self.voiceover(text="Let me give you a brief introduction to Bayesian statistics.") as tracker:
+			self.play(Write(title), run_time = 1)
 
 		# Top circle
 		circle_prior = Circle(color = BLUE, radius = 1.35)
@@ -83,7 +83,11 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_prior_text = Text("Prior")
 		circle_prior_text.move_to(circle_prior)
 
-		self.play(Create(circle_prior), Write(circle_prior_text))
+		with self.voiceover(text="The idea of Bayesian statistics is that you start by formulating your pre-existing information as a prior distribution, or simply a prior.") as tracker:
+			self.play(
+				Create(circle_prior),
+				Write(circle_prior_text)
+			)
 
 		# Bottom right circle
 		circle_data = Circle(color=BLUE, radius = 1.35)
@@ -92,7 +96,11 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_data_text = Text("Data")
 		circle_data_text.move_to(circle_data)
 		
-		self.play(Create(circle_data), Write(circle_data_text))
+		with self.voiceover(text="Next, suppose that you observe some data from an audit sample.") as tracker:
+			self.play(
+				Create(circle_data),
+				Write(circle_data_text)
+			)
 
 		# Bottom left circle
 		circle_post = Circle(color = BLUE, radius = 1.35)
@@ -101,32 +109,37 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_post_text = Text("Posterior")
 		circle_post_text.move_to(circle_post)
 
-		self.play(Create(circle_post), Write(circle_post_text))
+		with self.voiceover(text="Using the sample data, you can update your prior distribution to a posterior distribution. This posterior distribution is represents your updated knowledge.") as tracker:
+			self.play(
+				Create(circle_post),
+				Write(circle_post_text)
+			)
 
 		# Arrows
 		arrow_prior_data = Arrow(start = circle_prior.get_center(), end = circle_data.get_center(), buff = 1.5, color = YELLOW)
 		arrow_data_post = Arrow(start = circle_data.get_center(), end = circle_post.get_center(), buff = 1.5, color = YELLOW)
 		arrow_post_prior = Arrow(start = circle_post.get_center(), end = circle_prior.get_center(), buff = 1.5, color = YELLOW)
 
-		for i in range(3):
-			if i == 0:
-				self.play(Create(arrow_prior_data))
-			else:
+		with self.voiceover(text="The posterior distribution is the prior distribution for the next data point. When we observe more data, the whole process of updating the prior distribution to a posterior distribution is repeated. This is called the Bayesian learning cycle.") as tracker:
+			for i in range(3):
+				if i == 0:
+					self.play(Create(arrow_prior_data))
+				else:
+					self.play(
+						Create(arrow_prior_data),
+						FadeOut(arrow_post_prior)
+					)
 				self.play(
-					Create(arrow_prior_data),
-					FadeOut(arrow_post_prior)
+					Create(arrow_data_post),
+					FadeOut(arrow_prior_data)
 				)
-			self.play(
-				Create(arrow_data_post),
-				FadeOut(arrow_prior_data)
-			)
-			if i < 2:
-				self.play(
-					Create(arrow_post_prior),
-					FadeOut(arrow_data_post)
-				)
-			else:
-				self.play(FadeOut(arrow_data_post))
+				if i < 2:
+					self.play(
+						Create(arrow_post_prior),
+						FadeOut(arrow_data_post)
+					)
+				else:
+					self.play(FadeOut(arrow_data_post))
 
 		# Clear the scene
 		self.play(
@@ -153,36 +166,38 @@ class UniformPrior(VoiceoverScene):
 		title = Text("The uniform prior distribution", font_size = 40)
 		title.shift(UP * 3.5)
 
-		self.play(Write(title))
-		self.wait()
-		self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
-		self.play(Write(xlab))
-		self.play(Write(ylab))
-		self.wait()
+		with self.voiceover(text="Let's take a look at a common prior distribution: the uniform prior distribution.") as tracker:
+			self.play(Write(title))
+			self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
+			self.play(Write(xlab))
+			self.play(Write(ylab))
 
 		# Prior distribution
 		prior_a, prior_b = 1, 1
 		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
-		self.play(Create(distribution))
+		with self.voiceover(text="Here you can see the uniform distribution as a solid line. As you can see, it represents the prior information that every value of the population misstatement is equally likely before seeing any data.") as tracker:
+			self.play(Create(distribution))
 
 		# Label
 		label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		label.next_to(distribution, UP)
 
-		self.play(Write(label))
-		self.wait(2)
+		with self.voiceover(text="Specifically, this prior distribution is a beta distribution with parameters one and one.") as tracker:
+			self.play(Write(label))
 
 		# Subtitle (probability)
 		subtitle = Tex("Probability is represented by area under the curve ($p$)", font_size = 40, color = BLUE)
 		subtitle.next_to(title, DOWN)
 
-		self.play(Write(subtitle), run_time = 1)
+		with self.voiceover(text="The area under the prior distribution represents the probability of a value of the misstatement occurring.") as tracker:
+			self.play(Write(subtitle))
 
 		# Shaded area
 		area = axes.get_area(distribution, x_range = (0, 1), color = BLUE, opacity = 0.25)
 
-		self.play(Create(area), run_time = 1.5)
+		with self.voiceover(text="For example, the total probability of observing any value of the misstatement is equal to one.") as tracker:
+			self.play(Create(area), run_time = 1.5)
 
 		# Shaded area text
 		area_text = Tex("$p$ = 1", font_size = 40)
