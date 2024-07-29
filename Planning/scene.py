@@ -5,22 +5,22 @@ from manim_voiceover.services.coqui import CoquiService
 import numpy as np
 import scipy.stats as stats
 
-# SCENE 1: VIDEO TITLE ########################################################
+# SCENE 1: TITLE CARD ##########################################################
 class Title(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model='base'))
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
 		
-		with self.voiceover(text="Hi.") as tracker:
+		with self.voiceover(text="Hi there.") as tracker:
 			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle
-		subtitle = Text("Bayesian Sample Sizes for Testing", font_size = 40)
+		subtitle = Text("Bayesian Learning in Audit Sampling", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("In this clip I will explain how to calculate a sample size for a statistical audit sample using Bayesian statistics.") as tracker:
+		with self.voiceover("In this clip I will explain how to plan and evaluate a statistical audit sample using Bayesian statistics.") as tracker:
 			self.play(Write(subtitle))
 
 		# Clear the scene
@@ -32,45 +32,54 @@ class Title(VoiceoverScene):
 # SCENE 2: CONTENTS ############################################################
 class Contents(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model='base'))
 
 		# Title
-		title = Text("Contents", color = WHITE, font_size = 40)
-		title.shift(UP * 3.5)
+		title = Text("Contents", font_size = 40)
+		title.to_edge(UP)
 
-		with self.voiceover("I will explain the following subjects to you.") as tracker:
+		with self.voiceover("We will touch on the following ideas.") as tracker:
 			self.play(Write(title))
 
-		# Contents
-		contents = VGroup(
-			Text("1. The Bayesian updating cycle", font_size = 35),
-			Text("2. The uniform prior distribution", font_size = 35),
-			Text("3. The effect of the prior distribution", font_size = 35)
-		)
-		contents.arrange(DOWN, aligned_edge = LEFT)
-		contents.next_to(title, DOWN)
-		contents.shift(DOWN)
-		contents.shift(LEFT * 3)
+		content1 = Text("1. The Bayesian learning cycle", font_size = 35)
+		content1.to_edge(LEFT)
+		content1.shift(UP * 2)
 
-		with self.voiceover("First, I will discuss the Bayesian updating cycle. Next, I show you an example of a uniform prior distribution. Finally, I demonstrate the effect of the prior distribution on the sample size.") as tracker:
-			self.play(Write(contents))
+		with self.voiceover("First, I will discuss the Bayesian learning cycle.") as tracker:
+			self.play(Write(content1))
+
+		content2 = Text("2. The uniform prior distribution", font_size = 35)
+		content2.next_to(content1, DOWN)
+		content2.to_edge(LEFT)
+
+		with self.voiceover("Next, I show you an example of a uniform prior distribution.") as tracker:
+			self.play(Write(content2))
+
+		content3 = Text("3. The effect of the prior distribution", font_size = 35)
+		content3.next_to(content2, DOWN)
+		content3.to_edge(LEFT)
+
+		with self.voiceover("Finally, I demonstrate the effect of the prior distribution on the conclusions.") as tracker:
+			self.play(Write(content3))
 
 		# Clear the scene
 		self.play(
 			FadeOut(title),
-			FadeOut(contents)
+			FadeOut(content1),
+			FadeOut(content2),
+			FadeOut(content3)
 		)
 
-# SCENE 3: BAYESIAN UPDATING CYCLE #############################################
+# SCENE 3: BAYESIAN LEARNING CYCLE #############################################
 class BayesianUpdatingCycle(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService())
 
 		# Title
-		title = Text("The Bayesian updating cycle", color = WHITE, font_size = 40)
-		title.shift(UP * 3.5)
+		title = Text("The Bayesian learning cycle", color = WHITE, font_size = 40)
+		title.to_edge(UP)
 
-		with self.voiceover("Let me give you a brief introduction to Bayesian statistics.") as tracker:
+		with self.voiceover("I will first give you a short introduction into the philosophy of Bayesian statistics.") as tracker:
 			self.play(Write(title), run_time = 1)
 
 		# Top circle
@@ -84,7 +93,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		label = Tex("$n$ = 0", font_size = 60)
 		label.next_to(circle_prior, RIGHT * 6)
 
-		with self.voiceover("The idea of Bayesian statistics is that you start by formulating your pre-existing information as a prior distribution, or simply a prior.") as tracker:
+		with self.voiceover("The idea of this type of statistics is that you formulate your pre-existing information about the misstatement as a prior distribution.") as tracker:
 			self.play(
 				Create(circle_prior),
 				Write(circle_prior_text),
@@ -116,7 +125,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		circle_post_text = Text("Posterior")
 		circle_post_text.move_to(circle_post)
 
-		with self.voiceover("Using the sample data, you can update your prior distribution to a posterior distribution. This posterior distribution represents your updated knowledge.") as tracker:
+		with self.voiceover("Using the data, you can update your prior to a posterior distribution. The posterior represents your updated knowledge about the misstatement and acts as your prior distribution for the next observation.") as tracker:
 			self.play(
 				Create(circle_post),
 				Write(circle_post_text)
@@ -127,9 +136,9 @@ class BayesianUpdatingCycle(VoiceoverScene):
 		arrow_data_post = Arrow(start = circle_data.get_center(), end = circle_post.get_center(), buff = 1.5, color = YELLOW)
 		arrow_post_prior = Arrow(start = circle_post.get_center(), end = circle_prior.get_center(), buff = 1.5, color = YELLOW)
 
-		with self.voiceover("The posterior distribution is the prior distribution for the next data point. When we observe more data, the whole process of updating the prior distribution to a posterior distribution is repeated. This is called the Bayesian learning cycle.") as tracker:
+		with self.voiceover("When you observe more data, the process of updating the prior to a posterior is repeated. This is called the Bayesian learning cycle.") as tracker:
 			n = 1
-			for i in range(5):
+			for i in range(3):
 				n = n + 1
 				new_label = Tex("$n$ = " + str(n), font_size = 60)
 				new_label.move_to(label)
@@ -146,7 +155,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 					Create(arrow_data_post),
 					FadeOut(arrow_prior_data)
 				)
-				if i < 4:
+				if i < 2:
 					self.play(
 						Create(arrow_post_prior),
 						FadeOut(arrow_data_post)
@@ -169,7 +178,7 @@ class BayesianUpdatingCycle(VoiceoverScene):
 # SCENE 3: PLANNING WITH A UNIFORM PRIOR #######################################
 class UniformPrior(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model='base'))
 
 		# Axes
 		axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 4, 1], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
@@ -177,9 +186,9 @@ class UniformPrior(VoiceoverScene):
 		xlab = axes.get_x_axis_label(Tex("Population misstatement $\\theta$").scale(0.75), edge = DOWN, direction = DOWN, buff = 0.5)
 		ylab = axes.get_y_axis_label(Text("Density").scale(0.55).rotate(90 * DEGREES), edge = LEFT, direction = LEFT, buff = 0.3)
 		title = Text("The uniform prior distribution", font_size = 40)
-		title.shift(UP * 3.5)
+		title.to_edge(UP)
 
-		with self.voiceover("First, I will show you a common prior distribution: the uniform prior distribution.") as tracker:
+		with self.voiceover("To illustrate, I will show you a common prior distribution: the uniform prior distribution.") as tracker:
 			self.play(Write(title))
 			self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
 			self.play(Write(xlab))
@@ -189,7 +198,7 @@ class UniformPrior(VoiceoverScene):
 		prior_a, prior_b = 1, 1
 		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
-		with self.voiceover("Here you can see the uniform prior distribution as a solid line. Because it has a density of 1 at all values, it represents the prior information that every value of the population misstatement is equally likely before seeing any data.") as tracker:
+		with self.voiceover("Here you can see the uniform prior distribution as a solid line. Because it has equal density at all values, it represents the prior information that every value of the misstatement is equally plausible before seeing any data.") as tracker:
 			self.play(Create(distribution))
 
 		# Label
@@ -245,9 +254,12 @@ class UniformPrior(VoiceoverScene):
 		text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
 		text_ub.next_to(line_ub, RIGHT)
 
-		with self.voiceover("I will indicate this 95 percent upper bound with a blue line.") as tracker:
-			self.play(Create(line_ub))
-			self.play(Write(text_ub))
+		with self.voiceover("I will indicate this 95 percent upper bound with <bookmark mark='A'/>this blue line.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(
+				Create(line_ub),
+				Write(text_ub)
+			)
 
 		self.play(
 			FadeOut(area_text),
@@ -262,7 +274,8 @@ class UniformPrior(VoiceoverScene):
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 
-		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the vertial axis.") as tracker:
+		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the <bookmark mark='A'/>vertical axis.") as tracker:
+			self.wait_until_bookmark("A")
 			self.play(
 				ReplacementTransform(axes, new_axes),
 				Transform(distribution, new_distribution),
@@ -275,29 +288,38 @@ class UniformPrior(VoiceoverScene):
 		subtitle = Tex("Performance materiality ($\\theta_{max}$)", font_size = 40, color = RED)
 		subtitle.next_to(title, DOWN)
 
-		self.play(Write(subtitle))
+		with self.voiceover("Typically, you want to obtain evidence that the misstatement is lower than a certain threshold. This threshold is called the performance materiality.") as tracker:
+			self.play(Write(subtitle))
 
 		# Line (performance materiality)
 		point_mat = axes.coords_to_point(0.05, 35)
 		line_mat = axes.get_vertical_line(point_mat, line_config = {"dashed_ratio": 0.85}, color = RED)
 
-		self.play(Create(line_mat))
-
+		# Text (performance materiality)
 		text_mat = Tex("$\\theta_{max}$ = 0.05", font_size = 35, color = RED)
 		text_mat.next_to(line_mat, RIGHT)
 
-		self.play(Write(text_mat))
-		self.wait(2)
+		with self.voiceover("Suppose the performance materiality is set to 5 percent, which I will mark with <bookmark mark='A'/>this red line.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(
+				Create(line_mat),
+				Write(text_mat)
+			)
+
 		self.play(FadeOut(subtitle))
 
 		# Change the title
 		new_title = Text("Posterior distribution", font_size = 50)
 		new_title.move_to(title)
+
+		with self.voiceover("Now, let's see how the uniform prior distribution is updated to a posterior distribution after seeing data.") as tracker:
+			self.play(Transform(title, new_title))
+
 		subtitle = Tex("Sample size ($n$) = 0\\hspace{0.35cm}Misstatements ($k$) = 0", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		self.play(Transform(title, new_title), Write(subtitle))
-		self.wait()
+		with self.voiceover("The typical data from an audit sample consist of the sample size and the number of misstatements.") as tracker:
+			self.play(Write(subtitle))
 
 		# Update the prior
 		n, k = 0, 0
@@ -425,23 +447,21 @@ class UniformPrior(VoiceoverScene):
 			FadeOut(rectangle),
 			FadeOut(area)
 		)
-		self.wait()
-		
 
 # SCENE 4: THE EFFECT OF THE PRIOR #############################################
 class EffectOfPrior(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model='base'))
 
 		# Data
 		n, k = 0, 0
 
 		# Title
 		title = Text("The effect of the prior", color = WHITE, font_size = 40)
-		title.shift(UP * 3.5)
+		title.to_edge(UP)
 
-		self.play(Write(title))
-		self.wait()
+		with self.voiceover("Finally, I will demonstrate the effect of the prior distribution.") as tracker:
+			self.play(Write(title))
 
 		# Subtitle
 		subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
@@ -531,7 +551,6 @@ class EffectOfPrior(VoiceoverScene):
 		)
 
 		# Lines for materiality and upper bounds (top left, top right, bottom left, bottom right)
-
 		point_mat_ul = axes_ul.coords_to_point(0.05, 50)
 		line_mat_ul = axes_ul.get_vertical_line(point_mat_ul, line_config = {"dashed_ratio": 0.85}, color = RED)
 
@@ -604,7 +623,7 @@ class EffectOfPrior(VoiceoverScene):
 				Transform(line_ub_ur, new_line_ub_ur),
 				Transform(line_ub_dl, new_line_ub_dl),
 				Transform(line_ub_dr, new_line_ub_dr),
-				run_time = 0.1
+				run_time = 0.25
 			)
 
 		self.wait(2)
@@ -630,21 +649,20 @@ class EffectOfPrior(VoiceoverScene):
 			FadeOut(line_mat_dl),
 			FadeOut(line_mat_dr)
 		)
-		self.wait()
 
 # SCENE 5: TAKE HOME POINTS ####################################################
 class TakeHomePoints(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model='base'))
 
 		# Title
 		title = Text("Take home points", color = WHITE, font_size = 40)
-		title.shift(UP * 3.5)
+		title.to_edge(UP)
 
-		self.play(Write(title), run_time = 1)
-		self.wait()
+		with self.voiceover("So, what have you learned in this clip?") as tracker:
+			self.play(Write(title))
 
-		# Contents
+		# Take home points
 		th1_sub1 = Tex("1. A sufficient sample size implies ", color = WHITE, font_size = 40)
 		th1_sub2 = Tex("$\\theta_{95}$", color = BLUE, font_size = 40)
 		th1_sub2.next_to(th1_sub1, RIGHT)
@@ -652,20 +670,30 @@ class TakeHomePoints(VoiceoverScene):
 		th1_sub3.next_to(th1_sub2, RIGHT)
 		th1_sub4 = Tex("$\\theta_{max}$", color = RED, font_size = 40)
 		th1_sub4.next_to(th1_sub3, RIGHT)
-		takehomepoints = VGroup(
-			VGroup(th1_sub1, th1_sub2, th1_sub3, th1_sub4),
-			Tex("2. The uniform prior is conservative", font_size = 40),
-			Tex("3. Risk-reducing priors require a lower sample size", font_size = 40)
-		)
-		takehomepoints.arrange(DOWN, aligned_edge=LEFT)
-		takehomepoints.next_to(title, DOWN)
-		takehomepoints.shift(DOWN)
-		takehomepoints.shift(LEFT * 1.5)
+		takehome1 = VGroup(th1_sub1, th1_sub2, th1_sub3, th1_sub4)
+		takehome1.to_edge(LEFT)
+		takehome1.shift(UP * 2)
 
-		self.play(Write(takehomepoints))
-		self.wait(2)
+		with self.voiceover("First, a sufficient sample size implies that the upper bound for the misstatement is below the performance materiality.") as tracker:
+			self.play(Write(takehome1))
+
+		takehome2 = Tex("2. The uniform prior is conservative", font_size = 40)
+		takehome2.next_to(takehome1, DOWN)
+		takehome2.to_edge(LEFT)
+
+		with self.voiceover("Second, the uniform prior is conservative.") as tracker:
+			self.play(Write(takehome2))
+
+		takehome3 = Tex("3. Risk-reducing priors require a lower sample size", font_size = 40)
+		takehome3.next_to(takehome2, DOWN)
+		takehome3.to_edge(LEFT)
+
+		with self.voiceover("And finally, risk reducing priors require a lower sample size to come to a similar conclusion as the uniform prior.") as tracker:
+			self.play(Write(takehome3))
 
 		self.play(
 			FadeOut(title),
-			FadeOut(takehomepoints)
+			FadeOut(takehome1),
+			FadeOut(takehome2),
+			FadeOut(takehome3)
 		)
