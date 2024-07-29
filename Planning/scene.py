@@ -1,19 +1,26 @@
 from manim import *
+from manim_voiceover import VoiceoverScene
+from manim_voiceover.services.coqui import CoquiService
+
 import numpy as np
 import scipy.stats as stats
 
 # SCENE 1: VIDEO TITLE ########################################################
-class Title(Scene):
+class Title(VoiceoverScene):
 	def construct(self):
+		self.set_speech_service(CoquiService())
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
-		self.play(Write(title))
+		with self.voiceover(text="Hi there.") as tracker:
+			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle
 		subtitle = Text("Bayesian Sample Sizes for Testing", font_size = 40)
 		subtitle.next_to(title, DOWN)
-		self.play(Write(subtitle))
+
+		with self.voiceover(text="In this clip we discuss how to calculate a sample size for a statistical audit sample using Bayesian statistics.") as tracker:
+			self.play(Write(subtitle))
 		self.wait()
 
 		# Clear the scene
@@ -384,7 +391,7 @@ class UniformPrior(Scene):
 		
 
 # SCENE 4: THE EFFECT OF THE PRIOR #############################################
-class UniformPrior(Scene):
+class EffectOfPrior(Scene):
 	def construct(self):
 
 		# Data
