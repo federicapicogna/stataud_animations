@@ -146,7 +146,7 @@ class EffectOfPrior(VoiceoverScene):
 				Create(line_ub_dr)
 			)
 
-		with self.voiceover("Now, I will pretend as if a sample of 10 item is observed one by one. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
+		with self.voiceover("Now, I will pretend as if a sample of 30 items is observed one by one. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
 			for i in range(30):
 				n = n + 1
 
