@@ -35,11 +35,11 @@ class TakeHomePoints(VoiceoverScene):
 		with self.voiceover("Second, the uniform prior is conservative.") as tracker:
 			self.play(Write(takehome2))
 
-		takehome3 = Tex("3. Risk-reducing priors require a lower sample size", font_size = 40)
+		takehome3 = Tex("3. Priors shifted to the left require a lower sample size", font_size = 40)
 		takehome3.next_to(takehome2, DOWN)
 		takehome3.to_edge(LEFT)
 
-		with self.voiceover("And finally, risk reducing priors require a lower sample size to come to a similar conclusion as the uniform prior.") as tracker:
+		with self.voiceover("And finally, priors shifted more to the left require a lower sample size to come to a similar conclusion as the uniform prior.") as tracker:
 			self.play(Write(takehome3))
 
 		self.play(

@@ -16,7 +16,7 @@ class EffectOfPrior(VoiceoverScene):
 		title = Text("The effect of the prior", color = WHITE, font_size = 40)
 		title.to_edge(UP)
 
-		with self.voiceover("Finally, I will demonstrate the effect of the prior distribution on the posterior distribution.") as tracker:
+		with self.voiceover("Finally, I will show you the effect of the prior distribution on the posterior distribution.") as tracker:
 			self.play(Write(title))
 
 		# Subtitle
@@ -61,7 +61,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_ul.next_to(dist_ul, DOWN)
 		label_ul.shift(UP * 0.6)
 
-		with self.voiceover("In the top left, you see the uniform prior distribution from the previous scene. You might remember that this is a beta distribution with both parameters set to 1.") as tracker:
+		with self.voiceover("In the top left you see the uniform prior distribution.") as tracker:
 			self.play(Create(dist_ul))
 			self.play(Write(label_ul))
 
@@ -73,7 +73,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_ur.next_to(dist_ur, DOWN)
 		label_ur.shift(UP * 0.6)
 
-		with self.voiceover("In the top right, you see a beta distribution with parameters one and twenty.") as tracker:
+		with self.voiceover("In the top right you see the beta distribution with parameters one and twenty.") as tracker:
 			self.play(Create(dist_ur))
 			self.play(Write(label_ur))
 
@@ -85,7 +85,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_dl.next_to(dist_dl, DOWN)
 		label_dl.shift(UP * 0.6)
 
-		with self.voiceover("In the bottom left, you see a third beta distribution. However, this one has parameters two and 20.") as tracker:
+		with self.voiceover("In the bottom left you see a third beta distribution. However, this one has parameters two and 20.") as tracker:
 			self.play(Create(dist_dl))
 			self.play(Write(label_dl))
 
@@ -97,7 +97,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_dr.next_to(dist_dr, DOWN)
 		label_dr.shift(UP * 0.6)
 
-		with self.voiceover("Finally, in the bottom right, you see a beta distribution with parameters two and 35.") as tracker:
+		with self.voiceover("Finally, in the bottom right you see the beta distribution with parameters two and 35.") as tracker:
 			self.play(Create(dist_dr))
 			self.play(Write(label_dr))
 
@@ -145,7 +145,7 @@ class EffectOfPrior(VoiceoverScene):
 				Create(line_ub_dr)
 			)
 
-		with self.voiceover("Now, I will pretend as if a sample of 30 items is observed one by one. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
+		with self.voiceover("Now, I will pretend as if a sample of 30 items is observed sequentially. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
 			for i in range(30):
 				n = n + 1
 

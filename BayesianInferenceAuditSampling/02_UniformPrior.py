@@ -189,11 +189,11 @@ class UniformPrior(VoiceoverScene):
 				prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)	
 		
 		k = k + 1
-		with self.voiceover("However, watch what happends if you observe a misstatement. <bookmark mark='A'/>Now the upper bound moves to the right.") as tracker:
+		with self.voiceover("However, watch what happends if you observe a single misstated item instead of a correct item. <bookmark mark='A'/>Now the upper bound moves to the right.") as tracker:
 			self.wait_until_bookmark("A")
 			prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)
 	
-		with self.voiceover("You might be wondering how many correct items should you see before the upper bound is below the performance materiality? I will increase the sample size all the way up <bookmark mark='A'/>until this happends.") as tracker:
+		with self.voiceover("You might be wondering how many more correct items should you see before the upper bound is below the performance materiality? I will increase the sample size all the way up <bookmark mark='A'/>until this happends.") as tracker:
 			self.wait_until_bookmark("A")
 			for i in range(83):
 				n = n + 1
@@ -270,10 +270,10 @@ class UniformPrior(VoiceoverScene):
 
 		# Add a line on the mode
 		point_mle = axes.coords_to_point(k / n, stats.beta.pdf(k / n, post_a, post_b))
-		dot_mle = Dot(point_mle, color = YELLOW)
+		dot_mle = Dot(point_mle, color = GREEN)
 
 		# Add text besides the line
-		text_mle = Tex("$\\theta_{mle} = \\frac{1}{92} = 0.011$", font_size = 35, color = YELLOW)
+		text_mle = Tex("$\\theta_{mle} = \\frac{1}{92} = 0.011$", font_size = 35, color = GREEN)
 		text_mle.next_to(dot_mle, RIGHT)
 
 		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to one divided by 92, or one point one percent.") as tracker:

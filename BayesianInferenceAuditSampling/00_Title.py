@@ -9,7 +9,7 @@ class Title(VoiceoverScene):
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
 		
-		with self.voiceover(text="Hi there.") as tracker:
+		with self.voiceover("Hi there.") as tracker:
 			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle
