@@ -6,10 +6,10 @@ To render the videos on your own computer, make sure that you have a working ver
 
 ### Developing a scene
 
-If you have a working setup and a Python file containing a scene named `NameOfTheSceneFile.py`, open a terminal in the project folder and type the following command. Once executed, this will render the scene in low quality (`-ql`) and will preview it in the default video player when it is finished (`-p`).
+If you have a working setup and a Python file containing a scene named `NameOfScene.py`, open a terminal in the project folder and type the following command. Once executed, this will render the scene in low quality (`-ql`) and will preview it in the default video player when it is finished (`-p`).
 
 ```
-manim -ql -p NameOfTheSceneFile.py --disable_caching
+manim -ql -p NameOfScene.py --disable_caching
 ```
 
 ### Rendering a full video in high quality
@@ -20,4 +20,4 @@ Concatenating all high quality scenes into a full movie can be done using [movie
 python3 _montage_.py
 ```
 
-The script will take care of everyting and produce an `.mp4` file called `Video.mp4`. Note that it is important that your files start with `01_FileName` so that the script can place them in the right order. For example, the title card is typically named `00_Title.py` and the contents `01_Contents.py`.
+The script will take care of everyting and produce an `.mp4` file called `Video.mp4`. Note that it is important that your files start with `[scene number]_SceneName` so that the script can place them in the right order. For example, the title card is typically named `00_Title.py` and the next scene `01_SceneName.py`.

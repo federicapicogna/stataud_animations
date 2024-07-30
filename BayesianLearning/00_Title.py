@@ -2,7 +2,6 @@ from manim import *
 from manim_voiceover import VoiceoverScene
 from manim_voiceover.services.coqui import CoquiService
 
-# SCENE 00: TITLE CARD ##########################################################
 class Title(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model='base'))

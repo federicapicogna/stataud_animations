@@ -2,7 +2,6 @@ from manim import *
 from manim_voiceover import VoiceoverScene
 from manim_voiceover.services.coqui import CoquiService
 
-# SCENE 02: BAYESIAN LEARNING CYCLE #############################################
 class BayesianLearningCycle(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService())

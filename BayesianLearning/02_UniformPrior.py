@@ -30,7 +30,6 @@ def prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distributio
 		run_time = run_time
 	)
 
-# SCENE 03: PLANNING WITH A UNIFORM PRIOR #######################################
 class UniformPrior(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model='base'))
@@ -53,14 +52,14 @@ class UniformPrior(VoiceoverScene):
 		prior_a, prior_b = 1, 1
 		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
-		with self.voiceover("Here you can see the uniform prior distribution as a solid line. Because it has equal density at all values, it represents the prior information that every value of the misstatement is equally plausible before seeing any data.") as tracker:
+		with self.voiceover("Here you can see the uniform prior as a solid line. Since it has equal density at all values, it represents the prior information that every value of the misstatement is equally plausible before seeing any data.") as tracker:
 			self.play(Create(distribution))
 
 		# Label
 		label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		label.next_to(distribution, UP)
 
-		with self.voiceover("Specifically, this prior distribution is a beta distribution with shape parameters 1 and 1.") as tracker:
+		with self.voiceover("Specifically, this prior distribution is a beta distribution with both shape parameters set to one.") as tracker:
 			self.play(Write(label))
 
 		# Subtitle (probability)
@@ -77,13 +76,12 @@ class UniformPrior(VoiceoverScene):
 		area_text = Tex("$p$ = 1", font_size = 40)
 		area_text.move_to(area)
 
-		with self.voiceover("For example, the total probability of observing any value of the misstatement is equal to 1.") as tracker:
+		with self.voiceover("For example, the total probability of observing any value of the misstatement is equal to one.") as tracker:
 			self.play(Create(area))
 			self.play(Write(area_text))
 
 		# Update shaded area text
-		ub = stats.beta.ppf(0.95, prior_a, prior_b)
-		new_area = axes.get_area(distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
+		new_area = axes.get_area(distribution, x_range = (0, stats.beta.ppf(0.95, prior_a, prior_b)), color = BLUE, opacity = 0.25)
 
 		# Update the area text
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
