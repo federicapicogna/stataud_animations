@@ -84,14 +84,23 @@ class Binomial(VoiceoverScene):
 		new_formula[0][10:14].set_color(YELLOW)
 
 		with self.voiceover("First, I will draw the probability of no misstatements into the graph.") as tracker:
-			self.play(plot.animate.change_bar_values([stats.binom.pmf(0, 60, 0.03), 0, 0, 0, 0]))
+			self.play(plot.animate.change_bar_values([round(stats.binom.pmf(0, 60, 0.03), 3), 0, 0, 0, 0]))
+			bar_labels = plot.get_bar_labels(color = WHITE)
 			self.play(
 				Transform(formula, new_formula),
-				plot.animate.get_bar_labels(color = WHITE)
+				Write(bar_labels)
 			)
 
 		with self.voiceover("We can also draw the probabilities for the other number of misstatements.") as tracker:
-			self.play(plot.animate.change_bar_values([stats.binom.pmf(0, 60, 0.03), stats.binom.pmf(1, 60, 0.03), 0, 0, 0]))
-			self.play(plot.animate.change_bar_values([stats.binom.pmf(0, 60, 0.03), stats.binom.pmf(1, 60, 0.03), stats.binom.pmf(2, 60, 0.03), 0, 0]))
-			self.play(plot.animate.change_bar_values([stats.binom.pmf(0, 60, 0.03), stats.binom.pmf(1, 60, 0.03), stats.binom.pmf(2, 60, 0.03), stats.binom.pmf(3, 60, 0.03), 0]))
-			self.play(plot.animate.change_bar_values([stats.binom.pmf(0, 60, 0.03), stats.binom.pmf(1, 60, 0.03), stats.binom.pmf(2, 60, 0.03), stats.binom.pmf(3, 60, 0.03), stats.binom.pmf(4, 60, 0.03)]))
+			self.play(plot.animate.change_bar_values([round(stats.binom.pmf(0, 60, 0.03), 3), round(stats.binom.pmf(1, 60, 0.03), 3), 0, 0, 0]))
+			new_bar_labels = plot.get_bar_labels(color = WHITE)
+			self.play(Transform(bar_labels, new_bar_labels))
+			self.play(plot.animate.change_bar_values([round(stats.binom.pmf(0, 60, 0.03), 3), round(stats.binom.pmf(1, 60, 0.03), 3), round(stats.binom.pmf(2, 60, 0.03), 3), 0, 0]))
+			new_bar_labels = plot.get_bar_labels(color = WHITE)
+			self.play(Transform(bar_labels, new_bar_labels))
+			self.play(plot.animate.change_bar_values([round(stats.binom.pmf(0, 60, 0.03), 3), round(stats.binom.pmf(1, 60, 0.03), 3), round(stats.binom.pmf(2, 60, 0.03), 3), round(stats.binom.pmf(3, 60, 0.03), 3), 0]))
+			new_bar_labels = plot.get_bar_labels(color = WHITE)
+			self.play(Transform(bar_labels, new_bar_labels))
+			self.play(plot.animate.change_bar_values([round(stats.binom.pmf(0, 60, 0.03), 3), round(stats.binom.pmf(1, 60, 0.03), 3), round(stats.binom.pmf(2, 60, 0.03), 3), round(stats.binom.pmf(3, 60, 0.03), 3), round(stats.binom.pmf(4, 60, 0.03), 3)]))
+			new_bar_labels = plot.get_bar_labels(color = WHITE)
+			self.play(Transform(bar_labels, new_bar_labels))
