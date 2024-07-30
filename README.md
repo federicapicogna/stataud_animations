@@ -16,8 +16,10 @@ You should remove the `-ql` flag when rednering the final version of the video t
 
 ### Rendering a full video
 
-Concatenating the scenes into a full movie can be done using [moviepy](https://www.google.com/search?client=safari&rls=en&q=moviepy&ie=UTF-8&oe=UTF-8). To do so, open a terminal in the project folder and type the following command.
+Concatenating all high quality scenes into a full movie can be done using [moviepy](https://www.google.com/search?client=safari&rls=en&q=moviepy&ie=UTF-8&oe=UTF-8). To do so, open a terminal in the project folder and simply type the following command.
 
 ```
 python3 _montage_.py
 ```
+
+The script will take care of everyting and produces an `.mp4` file called `Video.mp4`. Note that it is important that your files start with `1_FileName` so that the script can place them in the right order.

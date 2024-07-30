@@ -134,58 +134,57 @@ class EffectOfPrior(VoiceoverScene):
 		point_ub_dr = axes_dr.coords_to_point(stats.beta.ppf(0.95, 2, 35), 50)
 		line_ub_dr = axes_dr.get_vertical_line(point_ub_dr, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 
-		self.play(
-			Create(line_mat_ul),
-			Create(line_mat_ur),
-			Create(line_mat_dl),
-			Create(line_mat_dr),
-			Create(line_ub_ul),
-			Create(line_ub_ur),
-			Create(line_ub_dl),
-			Create(line_ub_dr)
-		)
-		self.wait()
-
-		for i in range(30):
-			n = n + 1
-
-			new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
-			new_subtitle.move_to(subtitle)
-
-			new_dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1 + n), x_range = (0, 1, 0.001), color = WHITE)
-
-			point_ub_ul = axes_ul.coords_to_point(stats.beta.ppf(0.95, 1, 1 + n), 50)
-			new_line_ub_ul = axes_ul.get_vertical_line(point_ub_ul, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-
-			new_dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
-
-			point_ub_ur = axes_ur.coords_to_point(stats.beta.ppf(0.95, 1, 20 + n), 50)
-			new_line_ub_ur = axes_ur.get_vertical_line(point_ub_ur, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-
-			point_ub_dl = axes_dl.coords_to_point(stats.beta.ppf(0.95, 2, 20 + n), 50)
-			new_line_ub_dl = axes_dl.get_vertical_line(point_ub_dl, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-
-			new_dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
-
-			point_ub_dr = axes_dr.coords_to_point(stats.beta.ppf(0.95, 2, 35 + n), 50)
-			new_line_ub_dr = axes_dr.get_vertical_line(point_ub_dr, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-
-			new_dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35 + n), x_range = (0, 1, 0.001), color = WHITE)
-
+		with self.voiceover("I will again indicate the 95 percent upper bound and the performance materiality of 5 percent as lines.") as tracker:
 			self.play(
-				Transform(subtitle, new_subtitle),
-				Transform(dist_ul, new_dist_ul),
-				Transform(dist_ur, new_dist_ur),
-				Transform(dist_dl, new_dist_dl),
-				Transform(dist_dr, new_dist_dr),
-				Transform(line_ub_ul, new_line_ub_ul),
-				Transform(line_ub_ur, new_line_ub_ur),
-				Transform(line_ub_dl, new_line_ub_dl),
-				Transform(line_ub_dr, new_line_ub_dr),
-				run_time = 0.25
+				Create(line_mat_ul),
+				Create(line_mat_ur),
+				Create(line_mat_dl),
+				Create(line_mat_dr),
+				Create(line_ub_ul),
+				Create(line_ub_ur),
+				Create(line_ub_dl),
+				Create(line_ub_dr)
 			)
 
-		self.wait(2)
+		with self.voiceover("Now, I will pretend as if a sample of 10 item is observed one by one. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
+			for i in range(30):
+				n = n + 1
+
+				new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
+				new_subtitle.move_to(subtitle)
+
+				new_dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1 + n), x_range = (0, 1, 0.001), color = WHITE)
+
+				point_ub_ul = axes_ul.coords_to_point(stats.beta.ppf(0.95, 1, 1 + n), 50)
+				new_line_ub_ul = axes_ul.get_vertical_line(point_ub_ul, line_config = {"dashed_ratio": 0.85}, color = BLUE)
+
+				new_dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
+
+				point_ub_ur = axes_ur.coords_to_point(stats.beta.ppf(0.95, 1, 20 + n), 50)
+				new_line_ub_ur = axes_ur.get_vertical_line(point_ub_ur, line_config = {"dashed_ratio": 0.85}, color = BLUE)
+
+				point_ub_dl = axes_dl.coords_to_point(stats.beta.ppf(0.95, 2, 20 + n), 50)
+				new_line_ub_dl = axes_dl.get_vertical_line(point_ub_dl, line_config = {"dashed_ratio": 0.85}, color = BLUE)
+
+				new_dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
+
+				point_ub_dr = axes_dr.coords_to_point(stats.beta.ppf(0.95, 2, 35 + n), 50)
+				new_line_ub_dr = axes_dr.get_vertical_line(point_ub_dr, line_config = {"dashed_ratio": 0.85}, color = BLUE)
+
+				new_dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35 + n), x_range = (0, 1, 0.001), color = WHITE)
+
+				self.play(
+					Transform(subtitle, new_subtitle),
+					Transform(dist_ul, new_dist_ul),
+					Transform(dist_ur, new_dist_ur),
+					Transform(dist_dl, new_dist_dl),
+					Transform(dist_dr, new_dist_dr),
+					Transform(line_ub_ul, new_line_ub_ul),
+					Transform(line_ub_ur, new_line_ub_ur),
+					Transform(line_ub_dl, new_line_ub_dl),
+					Transform(line_ub_dr, new_line_ub_dr),
+					run_time = 0.25
+				)
 
 		# Clear the scene
 		self.play(
