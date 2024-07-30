@@ -17,7 +17,7 @@ manim -ql -p NameOfScene.py --disable_caching
 Concatenating all high quality scenes into a full movie can be done using [moviepy](https://www.google.com/search?client=safari&rls=en&q=moviepy&ie=UTF-8&oe=UTF-8). To do so, open a terminal in the project folder and simply type the following command.
 
 ```
-python3 _montage_.py
+python3 _montage.py
 ```
 
 The script will take care of everyting and produce an `.mp4` file called `Video.mp4`. Note that it is important that your files start with `[scene number]_SceneName` so that the script can place them in the right order. For example, the title card is typically named `00_Title.py` and the next scene `01_SceneName.py`.
