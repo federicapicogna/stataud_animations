@@ -17,14 +17,15 @@ class EffectOfPrior(VoiceoverScene):
 		title = Text("The effect of the prior", color = WHITE, font_size = 40)
 		title.to_edge(UP)
 
-		with self.voiceover("Finally, I will demonstrate the effect of the prior distribution.") as tracker:
+		with self.voiceover("Finally, I will demonstrate the effect of the prior distribution on the posterior distribution.") as tracker:
 			self.play(Write(title))
 
 		# Subtitle
 		subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		self.play(Write(subtitle))
+		with self.voiceover("Let's reset the data.") as tracker:
+			self.play(Write(subtitle), run_time = tracker.duration)
 
 		# Axes (top left, top right, bottom left, bottom right)
 		axes_ul = Axes(x_range = [0, 1, 0.1], y_range = [0, 50, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
@@ -45,61 +46,62 @@ class EffectOfPrior(VoiceoverScene):
 		axes_dr.scale(0.4)
 		axes_dr.next_to(axes_ur, DOWN)
 
-		self.play(
-			AnimationGroup(Create(axes_ul.x_axis), Create(axes_ul.y_axis), lag_ratio = 0),
-			AnimationGroup(Create(axes_ur.x_axis), Create(axes_ur.y_axis), lag_ratio = 0),
-			AnimationGroup(Create(axes_dl.x_axis), Create(axes_dl.y_axis), lag_ratio = 0),
-			AnimationGroup(Create(axes_dr.x_axis), Create(axes_dr.y_axis), lag_ratio = 0)
-		)
+		with self.voiceover("I will show you four different prior distributions.") as tracker:
+			self.play(
+				AnimationGroup(Create(axes_ul.x_axis), Create(axes_ul.y_axis), lag_ratio = 0),
+				AnimationGroup(Create(axes_ur.x_axis), Create(axes_ur.y_axis), lag_ratio = 0),
+				AnimationGroup(Create(axes_dl.x_axis), Create(axes_dl.y_axis), lag_ratio = 0),
+				AnimationGroup(Create(axes_dr.x_axis), Create(axes_dr.y_axis), lag_ratio = 0)
+			)
 
 		# Distribution top left
 		dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1), x_range = (0, 1, 0.001), color = WHITE)
-
-		self.play(Create(dist_ul))
 
 		# Label top left
 		label_ul = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", color = WHITE, font_size = 20)
 		label_ul.next_to(dist_ul, DOWN)
 		label_ul.shift(UP * 0.6)
 
-		self.play(Write(label_ul))
+		with self.voiceover("In the top left, you see the uniform prior distribution from the previous scene. You might remember that this is a beta distribution with both parameters set to 1.") as tracker:
+			self.play(Create(dist_ul))
+			self.play(Write(label_ul))
 
 		# Distribution top right
 		dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20), x_range = (0, 1, 0.001), color = WHITE)
-
-		self.play(Create(dist_ur))
 
 		# Label top right
 		label_ur = Tex("beta($\\alpha$ = 1, $\\beta$ = 20)", color = WHITE, font_size = 20)
 		label_ur.next_to(dist_ur, DOWN)
 		label_ur.shift(UP * 0.6)
 
-		self.play(Write(label_ur))
+		with self.voiceover("In the top right, you see a beta distribution with parameters 1 and 20.") as tracker:
+			self.play(Create(dist_ur))
+			self.play(Write(label_ur))
 
 		# Distribution bottom left
 		dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20), x_range = (0, 1, 0.001), color = WHITE)
-
-		self.play(Create(dist_dl))
 
 		# Label bottom left
 		label_dl = Tex("beta($\\alpha$ = 2, $\\beta$ = 20)", color = WHITE, font_size = 20)
 		label_dl.next_to(dist_dl, DOWN)
 		label_dl.shift(UP * 0.6)
 
-		self.play(Write(label_dl))
+		with self.voiceover("In the bottom left, you see a third beta distribution. However, this one has parameters 2 and 20.") as tracker:
+			self.play(Create(dist_dl))
+			self.play(Write(label_dl))
 
 		# Distribution bottom right
 		dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35), x_range = (0, 1, 0.001), color = WHITE)
-		
-		self.play(Create(dist_dr))
 
 		# Label bottom right
 		label_dr = Tex("beta($\\alpha$ = 2, $\\beta$ = 35)", color = WHITE, font_size = 20)
 		label_dr.next_to(dist_dr, DOWN)
 		label_dr.shift(UP * 0.6)
 
-		self.play(Write(label_dr))
-		self.wait()
+		with self.voiceover("Finally, in the bottom right, you see a beta distribution with parameters 2 and 35.") as tracker:
+			self.play(Create(dist_dr))
+			self.play(Write(label_dr))
+
 		self.play(
 			FadeOut(label_ul),
 			FadeOut(label_ur),

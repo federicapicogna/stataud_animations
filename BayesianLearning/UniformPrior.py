@@ -5,6 +5,31 @@ from manim_voiceover.services.coqui import CoquiService
 import numpy as np
 import scipy.stats as stats
 
+def prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label, run_time = 0.25):
+	post_a = prior_a + k
+	post_b = prior_b + n - k
+	new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
+	ub = stats.beta.ppf(0.95, post_a, post_b)
+	point_ub = axes.coords_to_point(ub, 30)
+	new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
+	new_text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
+	new_text_ub.next_to(new_line_ub, RIGHT)
+	new_area = axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
+	new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), font_size = 40)
+	new_subtitle.move_to(subtitle)
+	new_label = Tex("beta($\\alpha$ = " + str(post_a) + ", $\\beta$ = " + str(post_b) + ")", font_size = 35)
+	new_label.move_to(label)
+
+	self.play(
+		Transform(subtitle, new_subtitle),
+		Transform(distribution, new_distribution),
+		Transform(line_ub, new_line_ub),
+		Transform(text_ub, new_text_ub),
+		Transform(area, new_area),
+		Transform(label, new_label),
+		run_time = run_time
+	)
+
 # SCENE 4: PLANNING WITH A UNIFORM PRIOR #######################################
 class UniformPrior(VoiceoverScene):
 	def construct(self):
@@ -18,7 +43,7 @@ class UniformPrior(VoiceoverScene):
 		title = Text("The uniform prior distribution", font_size = 40)
 		title.to_edge(UP)
 
-		with self.voiceover("To illustrate, I will show you a common prior distribution: the uniform prior distribution.") as tracker:
+		with self.voiceover("I will show you an example of a prior that is commonly used in practice: the uniform prior distribution.") as tracker:
 			self.play(Write(title))
 			self.play(AnimationGroup(Create(axes.x_axis), Create(axes.y_axis), lag_ratio = 0))
 			self.play(Write(xlab))
@@ -64,7 +89,7 @@ class UniformPrior(VoiceoverScene):
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
 		new_area_text.move_to(area_text)
 
-		with self.voiceover("By looking at a smaller range of values for the misstatement, the probability of observing these values is adjusted accordingly. For instance, the probability under the area you see now is 95 percent.") as tracker:
+		with self.voiceover("By looking at a smaller range of values, the probability of observing these values is adjusted accordingly. For instance, the probability under the area you see here is 95 percent.") as tracker:
 			self.play(Transform(area_text, new_area_text), Transform(area, new_area))
 			self.wait(0.5)
 			self.play(FadeOut(subtitle))
@@ -73,7 +98,7 @@ class UniformPrior(VoiceoverScene):
 		subtitle = Tex("95 percent upper bound ($\\theta_{95}$)", font_size = 40, color = BLUE)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("The value of the misstatement below which the probability of occurrance is 95 percent can be seen as an upper bound for the misstatement.") as tracker:
+		with self.voiceover("The value of the misstatement below which the probability of occurrance is 95 percent can be seen as a 95 percent upper bound for the misstatement.") as tracker:
 			self.play(Write(subtitle))
 
 		# Line (upper bound)
@@ -142,83 +167,52 @@ class UniformPrior(VoiceoverScene):
 		new_title = Text("Posterior distribution", font_size = 50)
 		new_title.move_to(title)
 
-		with self.voiceover("Now, let's see how the uniform prior distribution is updated to a posterior distribution after seeing data.") as tracker:
+		with self.voiceover("Now, I will visualize how the uniform prior is updated to a posterior.") as tracker:
 			self.play(Transform(title, new_title))
 
 		subtitle = Tex("Sample size ($n$) = 0\\hspace{0.35cm}Misstatements ($k$) = 0", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("The typical data from an audit sample consist of the sample size and the number of misstatements.") as tracker:
+		with self.voiceover("For this, we need some data in the form of the sample size and the number of misstatements.") as tracker:
 			self.play(Write(subtitle))
 
-		# Update the prior
-		n, k = 0, 0
-		for i in range(10):
-			n = n + 1
-			if i == 9:
-				k = k + 1
-			post_a = prior_a + k
-			post_b = prior_b + n - k
-			new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
-			ub = stats.beta.ppf(0.95, post_a, post_b)
-			point_ub = axes.coords_to_point(ub, 30)
-			new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-			new_text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
-			new_text_ub.next_to(new_line_ub, RIGHT)
-			new_area = axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
-			new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), font_size = 40)
-			new_subtitle.move_to(subtitle)
-			new_label = Tex("beta($\\alpha$ = " + str(post_a) + ", $\\beta$ = " + str(post_b) + ")", font_size = 35)
-			new_label.move_to(label)
+		# Update the prior to a posterior
+		n, k = 1, 0
 
-			self.play(
-				Transform(subtitle, new_subtitle),
-				Transform(distribution, new_distribution),
-				Transform(line_ub, new_line_ub),
-				Transform(text_ub, new_text_ub),
-				Transform(area, new_area),
-				Transform(label, new_label),
-				run_time = 0.25
-			)
+		with self.voiceover("We first observe a single correct item<bookmark mark='A'/>. You can see that this shifts the upper bound to the left, relative to the prior.") as tracker:
+			self.wait_until_bookmark("A")
+			prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)
 
-			self.wait(0.5)
+		with self.voiceover("I will show you what happends to the upper bound if you observe 8 more correct items in the sample<bookmark mark='A'/>. As you can see, it gets increasingly lower.") as tracker:
+			self.wait_until_bookmark("A")
+			for i in range(8):
+				n = n + 1
+				prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)	
+		
+		k = k + 1
+		with self.voiceover("However, watch what happends if you observe a misstatement. <bookmark mark='A'/>Now the upper bound moves to the right.") as tracker:
+			self.wait_until_bookmark("A")
+			prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)
+	
+		with self.voiceover("You might be wondering how many correct items should you see before the upper bound is below the performance materiality? I will increase the sample size all the way up <bookmark mark='A'/>until this happends.") as tracker:
+			self.wait_until_bookmark("A")
+			for i in range(83):
+				n = n + 1
+				prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label, run_time = 0.05)
 
-		self.wait(2)
-
-		# More updates to the prior
-		sub_run_time = 0.25
-		for i in range(82):
-			n = n + 1
-			post_a = prior_a + k
-			post_b = prior_b + n - k
-			new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
-			ub = stats.beta.ppf(0.95, post_a, post_b)
-			point_ub = axes.coords_to_point(ub, 30)
-			new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
-			new_text_ub = Tex("$\\theta_{95}$ = " + str(round(ub, 3)), font_size = 35, color = BLUE)
-			new_text_ub.next_to(new_line_ub, RIGHT)
-			new_area = axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
-			new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.25cm}Misstatements ($k$) = " + str(k), font_size = 40)
-			new_subtitle.move_to(subtitle)
-			new_label = Tex("beta($\\alpha$ = " + str(post_a) + ", $\\beta$ = " + str(post_b) + ")", font_size = 35)
-			new_label.move_to(label)
-
-			self.play(
-				Transform(subtitle, new_subtitle),
-				Transform(distribution, new_distribution),
-				Transform(line_ub, new_line_ub),
-				Transform(text_ub, new_text_ub),
-				Transform(area, new_area),
-				Transform(label, new_label),
-				run_time = sub_run_time
-			)
-
-			sub_run_time = sub_run_time / 2
-
-		self.wait(2)
+		rectangle = SurroundingRectangle(label, color = YELLOW, buff = 0.1)
+		
+		with self.voiceover("Based on these data, the posterior distribution<bookmark mark='A'/> is a beta distribution with parameters 2 and 92.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(Create(rectangle))
+		
+		self.play(FadeOut(rectangle))
 		self.play(FadeOut(label))
 
 		# Zoom in on the posterior distribution
+		post_a = prior_a + k
+		post_b = prior_b + n - k
+		ub = stats.beta.ppf(0.95, post_a, post_b)
 		new_axes = Axes(x_range = [0, 0.1, 0.01], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		new_axes.scale(0.9)
 		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 0.1, 0.001), color = WHITE)
@@ -232,17 +226,17 @@ class UniformPrior(VoiceoverScene):
 		new_text_mat = Tex("$\\theta_{max}$ = 0.05", font_size = 35, color = RED)
 		new_text_mat.next_to(new_line_mat, RIGHT)
 
-		self.play(
-			ReplacementTransform(axes, new_axes),
-			Transform(distribution, new_distribution),
-			Transform(area, new_area),
-			Transform(line_ub, new_line_ub),
-			Transform(text_ub, new_text_ub),
-			Transform(line_mat, new_line_mat),
-			Transform(text_mat, new_text_mat)
-		)
+		with self.voiceover("By zooming in on the lower part of the graph, you can see that the upper bound is close to the performance materiality.") as tracker:
+			self.play(
+				ReplacementTransform(axes, new_axes),
+				Transform(distribution, new_distribution),
+				Transform(area, new_area),
+				Transform(line_ub, new_line_ub),
+				Transform(text_ub, new_text_ub),
+				Transform(line_mat, new_line_mat),
+				Transform(text_mat, new_text_mat)
+			)
 		axes = new_axes
-		self.wait()
 
 		# Morph upper bound and materiality labels
 		new_text_ub = Tex("$\\theta_{95}$", font_size = 35, color = BLUE)
@@ -252,28 +246,52 @@ class UniformPrior(VoiceoverScene):
 		new_text_mat = Tex("$\\theta_{max}$", font_size = 35, color = RED)
 		new_text_mat.next_to(text_other, RIGHT)
 
-		self.play(Transform(text_ub, new_text_ub), Write(text_other), Transform(text_mat, new_text_mat))
-		self.wait()
+		with self.voiceover("In fact, the upper bound is now slightly lower than the performance materiality.") as tracker:
+			self.play(
+				Transform(text_ub, new_text_ub),
+				Write(text_other),
+				Transform(text_mat, new_text_mat)
+			)
 
 		# Add rectangle around minimum saple size
 		rectangle = SurroundingRectangle(subtitle[0][0:16], color = YELLOW, buff = 0.1)
 
-		self.play(Create(rectangle))
-		self.wait(2)
+		with self.voiceover("This means that a sample of 92 items with 1 misstatement provides sufficient evidence to conclude that the misstatement is lower than the performance materiality of 5 percent.") as tracker:
+			self.play(Create(rectangle))
+
+		self.play(
+			FadeOut(rectangle),
+			FadeOut(subtitle),
+			FadeOut(line_ub),
+			FadeOut(line_mat),
+			FadeOut(text_ub),
+			FadeOut(text_mat),
+			FadeOut(text_other)
+		)
+
+		# Add a line on the mode
+		point_mle = axes.coords_to_point(k / n, stats.beta.pdf(k / n, post_a, post_b))
+		dot_mle = Dot(point_mle, color = YELLOW)
+
+		# Add text besides the line
+		text_mle = Tex("$\\theta_{mle} = \\frac{k}{n} = 0.011$", font_size = 35, color = YELLOW)
+		text_mle.next_to(dot_mle, RIGHT)
+
+		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to 1 divided by 92, or 1 point 11 percent.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(
+				Create(dot_mle),
+				Create(text_mle)
+			)
 
 		# Clear the scene
 		self.play(
 			FadeOut(title),
-			FadeOut(subtitle),
 			FadeOut(axes),
 			FadeOut(xlab),
 			FadeOut(ylab),
 			FadeOut(distribution),
-			FadeOut(line_ub),
-			FadeOut(text_ub),
-			FadeOut(text_mat),
-			FadeOut(line_mat),
-			FadeOut(text_other),
-			FadeOut(rectangle),
-			FadeOut(area)
+			FadeOut(area),
+			FadeOut(dot_mle),
+			FadeOut(text_mle)
 		)
