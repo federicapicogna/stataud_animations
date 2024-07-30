@@ -73,7 +73,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_ur.next_to(dist_ur, DOWN)
 		label_ur.shift(UP * 0.6)
 
-		with self.voiceover("In the top right, you see a beta distribution with parameters 1 and 20.") as tracker:
+		with self.voiceover("In the top right, you see a beta distribution with parameters one and twenty.") as tracker:
 			self.play(Create(dist_ur))
 			self.play(Write(label_ur))
 
@@ -85,7 +85,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_dl.next_to(dist_dl, DOWN)
 		label_dl.shift(UP * 0.6)
 
-		with self.voiceover("In the bottom left, you see a third beta distribution. However, this one has parameters 2 and 20.") as tracker:
+		with self.voiceover("In the bottom left, you see a third beta distribution. However, this one has parameters two and 20.") as tracker:
 			self.play(Create(dist_dl))
 			self.play(Write(label_dl))
 
@@ -97,7 +97,7 @@ class EffectOfPrior(VoiceoverScene):
 		label_dr.next_to(dist_dr, DOWN)
 		label_dr.shift(UP * 0.6)
 
-		with self.voiceover("Finally, in the bottom right, you see a beta distribution with parameters 2 and 35.") as tracker:
+		with self.voiceover("Finally, in the bottom right, you see a beta distribution with parameters two and 35.") as tracker:
 			self.play(Create(dist_dr))
 			self.play(Write(label_dr))
 

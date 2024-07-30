@@ -32,7 +32,7 @@ class BayesianLearningCycle(VoiceoverScene):
 			)
 
 		# Bottom right circle
-		circle_data = Circle(color=BLUE, radius = 1.35)
+		circle_data = Circle(color = BLUE, radius = 1.35)
 		circle_data.set_fill(BLUE, opacity = 0.25)
 		circle_data.next_to(circle_prior, DR * 2)
 		circle_data_text = Text("Data")

@@ -81,7 +81,8 @@ class UniformPrior(VoiceoverScene):
 			self.play(Write(area_text))
 
 		# Update shaded area text
-		new_area = axes.get_area(distribution, x_range = (0, stats.beta.ppf(0.95, prior_a, prior_b)), color = BLUE, opacity = 0.25)
+		ub = stats.beta.ppf(0.95, prior_a, prior_b)
+		new_area = axes.get_area(distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 
 		# Update the area text
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
@@ -254,7 +255,7 @@ class UniformPrior(VoiceoverScene):
 		# Add rectangle around minimum saple size
 		rectangle = SurroundingRectangle(subtitle[0][0:16], color = YELLOW, buff = 0.1)
 
-		with self.voiceover("This means that a sample of 92 items with 1 misstatement provides sufficient evidence to conclude that the misstatement is lower than the performance materiality of 5 percent.") as tracker:
+		with self.voiceover("This means that a sample of 92 items with one misstatement provides sufficient evidence to conclude that the misstatement is lower than the performance materiality of 5 percent.") as tracker:
 			self.play(Create(rectangle))
 
 		self.play(
@@ -275,7 +276,7 @@ class UniformPrior(VoiceoverScene):
 		text_mle = Tex("$\\theta_{mle} = \\frac{1}{92} = 0.011$", font_size = 35, color = YELLOW)
 		text_mle.next_to(dot_mle, RIGHT)
 
-		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to 1 divided by 92, or 1 point 1 percent.") as tracker:
+		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to one divided by 92, or one point one percent.") as tracker:
 			self.wait_until_bookmark("A")
 			self.play(
 				Create(dot_mle),
