@@ -2,7 +2,7 @@ from manim import *
 from manim_voiceover import VoiceoverScene
 from manim_voiceover.services.coqui import CoquiService
 
-# SCENE 6: TAKE HOME POINTS ####################################################
+# SCENE 05: TAKE HOME POINTS ####################################################
 class TakeHomePoints(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model='base'))

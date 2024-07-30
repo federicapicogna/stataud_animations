@@ -30,7 +30,7 @@ def prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distributio
 		run_time = run_time
 	)
 
-# SCENE 4: PLANNING WITH A UNIFORM PRIOR #######################################
+# SCENE 03: PLANNING WITH A UNIFORM PRIOR #######################################
 class UniformPrior(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model='base'))

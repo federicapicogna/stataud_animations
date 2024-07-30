@@ -5,7 +5,7 @@ from manim_voiceover.services.coqui import CoquiService
 import numpy as np
 import scipy.stats as stats
 
-# SCENE 5: THE EFFECT OF THE PRIOR #############################################
+# SCENE 04: THE EFFECT OF THE PRIOR #############################################
 class EffectOfPrior(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model='base'))
