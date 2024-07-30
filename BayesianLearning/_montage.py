@@ -29,4 +29,4 @@ for filename in filenames:
 final_clip = concatenate_videoclips(scenelist, method = "chain")
 
 # Write the result to a file
-final_clip.write_videofile("Video.mp4", codec = "mpeg4", audio_codec = 'libfdk_aac')
+final_clip.write_videofile("Video.mp4", codec = "mpeg4", audio_codec = 'aac')
