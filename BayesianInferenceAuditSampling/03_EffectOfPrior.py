@@ -7,7 +7,7 @@ import scipy.stats as stats
 
 class EffectOfPrior(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService(transcription_model='base'))
+		self.set_speech_service(CoquiService(transcription_model = 'base'))
 
 		# Data
 		n, k = 0, 0

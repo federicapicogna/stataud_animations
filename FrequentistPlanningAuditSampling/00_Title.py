@@ -13,10 +13,10 @@ class Title(VoiceoverScene):
 			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle
-		subtitle = Text("Bayesian Learning in Audit Sampling", font_size = 40)
+		subtitle = Text("Planning an audit sample", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("In this clip I will explain how to plan and evaluate a statistical audit sample using Bayesian statistics.") as tracker:
+		with self.voiceover("In this clip I will explain how to plan a statistical audit sample using classical statistics.") as tracker:
 			self.play(Write(subtitle))
 
 		# Clear the scene

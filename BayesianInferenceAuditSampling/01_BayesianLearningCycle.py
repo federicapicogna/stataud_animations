@@ -4,7 +4,7 @@ from manim_voiceover.services.coqui import CoquiService
 
 class BayesianLearningCycle(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService())
+		self.set_speech_service(CoquiService(transcription_model = 'base'))
 
 		# Title
 		title = Text("The Bayesian learning cycle", color = WHITE, font_size = 40)

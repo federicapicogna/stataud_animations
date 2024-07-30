@@ -4,7 +4,7 @@ from manim_voiceover.services.coqui import CoquiService
 
 class Title(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService(transcription_model='base'))
+		self.set_speech_service(CoquiService(transcription_model = 'base'))
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
