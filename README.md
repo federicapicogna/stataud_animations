@@ -6,15 +6,17 @@ This repository contains mathematical animations illustrating concepts in statis
 
 To render the videos on your own computer, make sure that you have a working version of `manim`. See [this page](https://docs.manim.community/en/stable/installation.html) for install instructions.
 
-If you have a working setup, open a terminal in the project folder and type the following command. It will prompt you to choose which scene you want to render. Once specified, this will render the scene using low quality (`-ql`) and will preview it when it is done (`-p`). You should remove the `-ql` flag when rednering the final version of the video.
+If you have a working setup, open a terminal in the project folder and type the following command. It will prompt you to choose which scene you want to render. Once specified, this will render the scene using low quality (`-ql`) and will preview it when it is done (`-p`).
 
 ```
-python3 -m manim -ql -p scene.py --disable_caching
+python3 -m manim -ql -p NameOfScene.py --disable_caching
 ```
+
+You should remove the `-ql` flag when rednering the final version of the video to render in high quality.
 
 ### Rendering a full video
 
-Rendering the full movie can be done using [moviepy](https://www.google.com/search?client=safari&rls=en&q=moviepy&ie=UTF-8&oe=UTF-8). Open a terminal in the project folder and type the following command.
+Concatenating the scenes into a full movie can be done using [moviepy](https://www.google.com/search?client=safari&rls=en&q=moviepy&ie=UTF-8&oe=UTF-8). To do so, open a terminal in the project folder and type the following command.
 
 ```
 python3 concat.py
