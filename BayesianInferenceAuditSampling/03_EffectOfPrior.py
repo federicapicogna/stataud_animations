@@ -145,7 +145,7 @@ class EffectOfPrior(VoiceoverScene):
 				Create(line_ub_dr)
 			)
 
-		with self.voiceover("Now, I will pretend as if a sample of 30 items is observed sequentially. As you can see, the upper bound for priors that allocate more mass to lower values of the misstatement is lower than that of the uniform prior.") as tracker:
+		with self.voiceover("Now, I will pretend as if a sample of 30 items is observed sequentially.") as tracker:
 			for i in range(30):
 				n = n + 1
 
@@ -185,10 +185,17 @@ class EffectOfPrior(VoiceoverScene):
 					run_time = 0.25
 				)
 
+		rectangle = SurroundingRectangle(axes_ur, color = GREEN, buff = 0.1)
+		
+		with self.voiceover("As you can see, the upper bound for priors that initially allocate more mass to lower values of the misstatement, such as <bookmark mark='A'/>this one, is lower than that of the uniform prior.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(Create(rectangle))
+
 		# Clear the scene
 		self.play(
 			FadeOut(title),
 			FadeOut(subtitle),
+			FadeOut(rectangle),
 			FadeOut(axes_ul),
 			FadeOut(axes_ur),
 			FadeOut(axes_dl),
