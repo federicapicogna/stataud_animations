@@ -300,7 +300,7 @@ class Binomial(VoiceoverScene):
 			for i in np.arange(0.03, 0.009, -0.001):
 				bar_values = [round(stats.binom.pmf(0, 157, i), 3), round(stats.binom.pmf(1, 157, i), 3), round(stats.binom.pmf(2, 157, i), 3), round(stats.binom.pmf(3, 157, i), 3), round(stats.binom.pmf(4, 157, i), 3)]
 				self.play(
-					Transform(formula, create_cumulative_formula_three_two(157, 1, "{:.3f}".format(i))),
+					Transform(formula, create_cumulative_formula_three_two(157, 0, "{:.3f}".format(i))),
 					plot.animate.change_bar_values(bar_values),
 					run_time = 0.15
 				)
@@ -314,7 +314,7 @@ class Binomial(VoiceoverScene):
 			self.wait_until_bookmark("A")
 			self.play(Transform(risk_text, new_risk_text))
 
-		with self.voiceover("To bring the cumulative probability below 5 percent, <bookmark mark='A'/>we will once more need to increase the sample size.") as tracker:
+		with self.voiceover("To bring this probability below 5 percent, <bookmark mark='A'/>we will once more need to increase the sample size.") as tracker:
 			self.wait_until_bookmark("A")
 			for i in range(157, 300):
 				bar_values = [round(stats.binom.pmf(0, i, 0.01), 3), round(stats.binom.pmf(1, i, 0.01), 3), round(stats.binom.pmf(2, i, 0.01), 3), round(stats.binom.pmf(3, i, 0.01), 3), round(stats.binom.pmf(4, i, 0.01), 3)]
@@ -329,7 +329,7 @@ class Binomial(VoiceoverScene):
 		new_risk_text = MathTex(" < 0.05", font_size = 30)
 		new_risk_text.move_to(risk_text)
 
-		with self.voiceover("Now you see that you need a sample size of 299 to bring the cumulative probability below the sampling risk. This means that a sample size of 299 is sufficient when tolerating 0 misstatements in the sample and assuming a true misstatement rate of 1 percent.") as tracker:
+		with self.voiceover("Now you see that you need a sample size of 299 to bring the probability of 0 misstatements below the sampling risk. This means that a sample size of 299 is sufficient when tolerating 0 misstatements in the sample and assuming a true misstatement rate of 1 percent.") as tracker:
 			self.play(Transform(risk_text, new_risk_text))
 
 		self.play(
