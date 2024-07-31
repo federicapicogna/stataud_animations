@@ -7,7 +7,7 @@ class TakeHomePoints(VoiceoverScene):
 		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Title
-		title = Text("Take home points", font_size = 40)
+		title = Text("Summary", font_size = 40)
 		title.to_edge(UP)
 
 		with self.voiceover("So, what have you learned in this clip?") as tracker:
