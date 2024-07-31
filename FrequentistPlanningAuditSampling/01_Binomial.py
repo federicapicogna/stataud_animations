@@ -67,7 +67,7 @@ class Binomial(VoiceoverScene):
 		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Title
-		title = Text("The binomial distribution", font_size = 40)
+		title = Text("The Binomial Distribution", font_size = 40)
 		title.to_edge(UP)
 		
 		with self.voiceover("We will compute the sample size using the binomial distribution, but this is a matter of preference.") as tracker:

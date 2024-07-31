@@ -7,7 +7,7 @@ class BayesianLearningCycle(VoiceoverScene):
 		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Title
-		title = Text("The Bayesian learning cycle", color = WHITE, font_size = 40)
+		title = Text("The Bayesian Learning Cycle", font_size = 40)
 		title.to_edge(UP)
 
 		with self.voiceover("I will first give you a short introduction into the philosophy of Bayesian statistics.") as tracker:

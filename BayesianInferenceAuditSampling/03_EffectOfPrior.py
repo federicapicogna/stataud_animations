@@ -13,14 +13,14 @@ class EffectOfPrior(VoiceoverScene):
 		n, k = 0, 0
 
 		# Title
-		title = Text("The effect of the prior", color = WHITE, font_size = 40)
+		title = Text("The Effect of The Prior", font_size = 40)
 		title.to_edge(UP)
 
 		with self.voiceover("Finally, I will show you the effect of the prior distribution on the posterior distribution.") as tracker:
 			self.play(Write(title))
 
 		# Subtitle
-		subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
+		subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), font_size = 40)
 		subtitle.next_to(title, DOWN)
 
 		with self.voiceover("Let's reset the data.") as tracker:
@@ -54,10 +54,10 @@ class EffectOfPrior(VoiceoverScene):
 			)
 
 		# Distribution top left
-		dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1), x_range = (0, 1, 0.001), color = WHITE)
+		dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1), x_range = (0, 1, 0.001))
 
 		# Label top left
-		label_ul = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", color = WHITE, font_size = 20)
+		label_ul = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 20)
 		label_ul.next_to(dist_ul, DOWN)
 		label_ul.shift(UP * 0.6)
 
@@ -66,10 +66,10 @@ class EffectOfPrior(VoiceoverScene):
 			self.play(Write(label_ul))
 
 		# Distribution top right
-		dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20), x_range = (0, 1, 0.001), color = WHITE)
+		dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20), x_range = (0, 1, 0.001))
 
 		# Label top right
-		label_ur = Tex("beta($\\alpha$ = 1, $\\beta$ = 20)", color = WHITE, font_size = 20)
+		label_ur = Tex("beta($\\alpha$ = 1, $\\beta$ = 20)", font_size = 20)
 		label_ur.next_to(dist_ur, DOWN)
 		label_ur.shift(UP * 0.6)
 
@@ -78,10 +78,10 @@ class EffectOfPrior(VoiceoverScene):
 			self.play(Write(label_ur))
 
 		# Distribution bottom left
-		dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20), x_range = (0, 1, 0.001), color = WHITE)
+		dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20), x_range = (0, 1, 0.001))
 
 		# Label bottom left
-		label_dl = Tex("beta($\\alpha$ = 2, $\\beta$ = 20)", color = WHITE, font_size = 20)
+		label_dl = Tex("beta($\\alpha$ = 2, $\\beta$ = 20)", font_size = 20)
 		label_dl.next_to(dist_dl, DOWN)
 		label_dl.shift(UP * 0.6)
 
@@ -90,10 +90,10 @@ class EffectOfPrior(VoiceoverScene):
 			self.play(Write(label_dl))
 
 		# Distribution bottom right
-		dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35), x_range = (0, 1, 0.001), color = WHITE)
+		dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35), x_range = (0, 1, 0.001))
 
 		# Label bottom right
-		label_dr = Tex("beta($\\alpha$ = 2, $\\beta$ = 35)", color = WHITE, font_size = 20)
+		label_dr = Tex("beta($\\alpha$ = 2, $\\beta$ = 35)", font_size = 20)
 		label_dr.next_to(dist_dr, DOWN)
 		label_dr.shift(UP * 0.6)
 
@@ -149,15 +149,15 @@ class EffectOfPrior(VoiceoverScene):
 			for i in range(30):
 				n = n + 1
 
-				new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), color = WHITE, font_size = 40)
+				new_subtitle = Tex("Sample size ($n$) = " + str(n) + "\\hspace{0.35cm}Misstatements ($k$) = " + str(k), font_size = 40)
 				new_subtitle.move_to(subtitle)
 
-				new_dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1 + n), x_range = (0, 1, 0.001), color = WHITE)
+				new_dist_ul = axes_ul.plot(lambda x: stats.beta.pdf(x, 1, 1 + n), x_range = (0, 1, 0.001))
 
 				point_ub_ul = axes_ul.coords_to_point(stats.beta.ppf(0.95, 1, 1 + n), 50)
 				new_line_ub_ul = axes_ul.get_vertical_line(point_ub_ul, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 
-				new_dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
+				new_dist_ur = axes_ur.plot(lambda x: stats.beta.pdf(x, 1, 20 + n), x_range = (0, 1, 0.001))
 
 				point_ub_ur = axes_ur.coords_to_point(stats.beta.ppf(0.95, 1, 20 + n), 50)
 				new_line_ub_ur = axes_ur.get_vertical_line(point_ub_ur, line_config = {"dashed_ratio": 0.85}, color = BLUE)
@@ -165,12 +165,12 @@ class EffectOfPrior(VoiceoverScene):
 				point_ub_dl = axes_dl.coords_to_point(stats.beta.ppf(0.95, 2, 20 + n), 50)
 				new_line_ub_dl = axes_dl.get_vertical_line(point_ub_dl, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 
-				new_dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20 + n), x_range = (0, 1, 0.001), color = WHITE)
+				new_dist_dl = axes_dl.plot(lambda x: stats.beta.pdf(x, 2, 20 + n), x_range = (0, 1, 0.001))
 
 				point_ub_dr = axes_dr.coords_to_point(stats.beta.ppf(0.95, 2, 35 + n), 50)
 				new_line_ub_dr = axes_dr.get_vertical_line(point_ub_dr, line_config = {"dashed_ratio": 0.85}, color = BLUE)
 
-				new_dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35 + n), x_range = (0, 1, 0.001), color = WHITE)
+				new_dist_dr = axes_dr.plot(lambda x: stats.beta.pdf(x, 2, 35 + n), x_range = (0, 1, 0.001))
 
 				self.play(
 					Transform(subtitle, new_subtitle),

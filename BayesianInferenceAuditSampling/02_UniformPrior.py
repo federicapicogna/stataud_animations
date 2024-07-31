@@ -8,7 +8,7 @@ import scipy.stats as stats
 def prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label, run_time = 0.25):
 	post_a = prior_a + k
 	post_b = prior_b + n - k
-	new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001), color = WHITE)
+	new_distribution = axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 1, 0.001))
 	ub = stats.beta.ppf(0.95, post_a, post_b)
 	point_ub = axes.coords_to_point(ub, 30)
 	new_line_ub = axes.get_vertical_line(point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
@@ -34,13 +34,15 @@ class UniformPrior(VoiceoverScene):
 	def construct(self):
 		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
+		# Title
+		title = Text("The Uniform Prior Distribution", font_size = 40)
+		title.to_edge(UP)
+
 		# Axes
 		axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 4, 1], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		axes.scale(0.9)
 		xlab = axes.get_x_axis_label(Tex("Population misstatement $\\theta$").scale(0.75), edge = DOWN, direction = DOWN, buff = 0.5)
 		ylab = axes.get_y_axis_label(Text("Density").scale(0.55).rotate(90 * DEGREES), edge = LEFT, direction = LEFT, buff = 0.3)
-		title = Text("The uniform prior distribution", font_size = 40)
-		title.to_edge(UP)
 
 		with self.voiceover("I will show you an example of a prior that is commonly used in practice: the uniform prior distribution.") as tracker:
 			self.play(Write(title))
@@ -50,7 +52,7 @@ class UniformPrior(VoiceoverScene):
 
 		# Prior distribution
 		prior_a, prior_b = 1, 1
-		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
+		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001))
 
 		with self.voiceover("Here you can see the uniform prior as a solid line. Since it has equal density at all values, it represents the prior information that every value of the population misstatement is equally plausible before seeing any data.") as tracker:
 			self.play(Create(distribution))
@@ -127,7 +129,7 @@ class UniformPrior(VoiceoverScene):
 		# Extend the y-axis
 		new_axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		new_axes.scale(0.9)
-		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
+		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001))
 		new_label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
@@ -218,7 +220,7 @@ class UniformPrior(VoiceoverScene):
 		ub = stats.beta.ppf(0.95, post_a, post_b)
 		new_axes = Axes(x_range = [0, 0.1, 0.01], y_range = [0, 40, 10], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)
 		new_axes.scale(0.9)
-		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 0.1, 0.001), color = WHITE)
+		new_distribution = new_axes.plot(lambda x: stats.beta.pdf(x, post_a, post_b), x_range = (0, 0.1, 0.001))
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 		new_point_ub = new_axes.coords_to_point(ub, 30)
 		new_line_ub = new_axes.get_vertical_line(new_point_ub, line_config = {"dashed_ratio": 0.85}, color = BLUE)
@@ -244,7 +246,7 @@ class UniformPrior(VoiceoverScene):
 		# Morph upper bound and materiality labels
 		new_text_ub = Tex("$\\theta_{95}$", font_size = 35, color = BLUE)
 		new_text_ub.next_to(line_mat, RIGHT)
-		text_other = Tex("$<$", font_size = 35, color = WHITE)
+		text_other = Tex("$<$", font_size = 35)
 		text_other.next_to(new_text_ub, RIGHT)
 		new_text_mat = Tex("$\\theta_{max}$", font_size = 35, color = RED)
 		new_text_mat.next_to(text_other, RIGHT)
