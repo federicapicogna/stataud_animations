@@ -16,7 +16,7 @@ class Title(VoiceoverScene):
 		subtitle = Text("Planning an audit sample", font_size = 40)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("In this clip I will explain how to determine the sample size for a statistical audit sample using classical statistics.") as tracker:
+		with self.voiceover("In this clip I will explain how to determine the sample size for a statistical audit sample.") as tracker:
 			self.play(Write(subtitle))
 
 		# Clear the scene

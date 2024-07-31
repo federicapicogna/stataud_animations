@@ -59,7 +59,7 @@ def create_cumulative_formula_three_two(n, k, theta):
 	formula[0][13:16].set_color(GREEN)
 	formula[0][33:36].set_color(GREEN)
 	formula[0][18:23].set_color(YELLOW)
-	formula[0][28:33].set_color(YELLOW)
+	formula[0][27:32].set_color(YELLOW)
 	return formula
 
 class Binomial(VoiceoverScene):
@@ -120,7 +120,7 @@ class Binomial(VoiceoverScene):
 				Write(text_theta)
 			)
 
-		self.wait()
+		self.wait(0.5)
 
 		self.play(
 			FadeOut(text_p),
@@ -258,15 +258,16 @@ class Binomial(VoiceoverScene):
 		new_plot = BarChart(values = bar_values, y_range = [0, 0.4, 0.1], bar_names = ["0", "1", "2", "3", "4"], bar_colors = [RED, RED, BLUE, BLUE, BLUE])
 		new_plot.move_to(plot)
 
-		with self.voiceover("However, when you tolerate 1 misstatement in the sample you need to consider the probability of finding 0 misstatements, or <bookmark mark='A'/>1 misstatement. This cumulative probability is higher than the sampling risk of 5 percent, which means that a sample size of 99 is insufficient.") as tracker:
+		with self.voiceover("However, when you tolerate <bookmark mark='A'/>1 misstatement in the sample you need to consider the probability of finding 0 misstatements, or <bookmark mark='B'/>1 misstatement. This cumulative probability is higher than the sampling risk of 5 percent, which means that a sample size of 99 is insufficient.") as tracker:
 			self.wait_until_bookmark("A")
+			self.play(Transform(formula, create_cumulative_formula(99, 1, 0.03)),)
+			self.wait_until_bookmark("B")
 			self.play(
 				ReplacementTransform(plot, new_plot),
-				Transform(formula, create_cumulative_formula(99, 1, 0.03)),
 				Transform(risk_text, new_risk_text)
 			)
 
-		with self.voiceover("To bring the cumulative probability below 5 percent, we will need to increase the sample size further. Let's do that <bookmark mark='A'/>now. Pay attention to what effect this has on the probabilities.") as tracker:
+		with self.voiceover("To bring this cumulative probability below 5 percent, we will need to increase the sample size further. Let's do that <bookmark mark='A'/>now. Pay attention to what effect this has on the probabilities.") as tracker:
 			self.wait_until_bookmark("A")
 			for i in range(100, 158):
 				bar_values = [round(stats.binom.pmf(0, i, 0.03), 3), round(stats.binom.pmf(1, i, 0.03), 3), round(stats.binom.pmf(2, i, 0.03), 3), round(stats.binom.pmf(3, i, 0.03), 3), round(stats.binom.pmf(4, i, 0.03), 3)]
@@ -287,7 +288,8 @@ class Binomial(VoiceoverScene):
 		plot = BarChart(values = bar_values, y_range = [0, 0.4, 0.1], bar_names = ["0", "1", "2", "3", "4"], bar_colors = [RED, BLUE, BLUE, BLUE, BLUE])
 		plot.move_to(new_plot)
 
-		with self.voiceover("However, the binomial probabilities also depend on the true misstatement rate. To illustrate this, we will go back to the situation where we do not tolerate any misstatements in the sample.") as tracker:
+		with self.voiceover("Besides depending on the sample size, the binomial probabilities also depend on the true misstatement rate. To illustrate this, we will go back to the situation where we do not tolerate any misstatements in the <bookmark mark='A'/>sample.") as tracker:
+			self.wait_until_bookmark("A")
 			self.play(
 				ReplacementTransform(new_plot, plot),
 				Transform(formula, create_cumulative_formula_three(157, 0, 0.03))
@@ -300,7 +302,7 @@ class Binomial(VoiceoverScene):
 				self.play(
 					Transform(formula, create_cumulative_formula_three_two(157, 1, "{:.3f}".format(i))),
 					plot.animate.change_bar_values(bar_values),
-					run_time = 0.05
+					run_time = 0.15
 				)
 				new_bar_labels = plot.get_bar_labels(color = WHITE)
 				self.play(Transform(bar_labels, new_bar_labels), run_time = 0.025)
@@ -312,13 +314,14 @@ class Binomial(VoiceoverScene):
 			self.wait_until_bookmark("A")
 			self.play(Transform(risk_text, new_risk_text))
 
-		with self.voiceover("To bring the cumulative probability below 5 percent, we will once more need to increase the sample size.") as tracker:
+		with self.voiceover("To bring the cumulative probability below 5 percent, <bookmark mark='A'/>we will once more need to increase the sample size.") as tracker:
+			self.wait_until_bookmark("A")
 			for i in range(157, 300):
 				bar_values = [round(stats.binom.pmf(0, i, 0.01), 3), round(stats.binom.pmf(1, i, 0.01), 3), round(stats.binom.pmf(2, i, 0.01), 3), round(stats.binom.pmf(3, i, 0.01), 3), round(stats.binom.pmf(4, i, 0.01), 3)]
 				self.play(
 					Transform(formula, create_cumulative_formula_three_two(i, 1, "{:.3f}".format(0.01))),
 					plot.animate.change_bar_values(bar_values),
-					run_time = 0.01
+					run_time = 0.005
 				)
 				new_bar_labels = plot.get_bar_labels(color = WHITE)
 				self.play(Transform(bar_labels, new_bar_labels), run_time = 0.025)
@@ -335,6 +338,7 @@ class Binomial(VoiceoverScene):
 			FadeOut(formula),
 			FadeOut(plot),
 			FadeOut(xlab),
-			FadeOut(ylab)
+			FadeOut(ylab),
+			FadeOut(bar_labels)
 		)
 		self.wait()
