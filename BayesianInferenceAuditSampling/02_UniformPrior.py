@@ -276,7 +276,7 @@ class UniformPrior(VoiceoverScene):
 		text_mle = Tex("$\\theta_{mle} = \\frac{1}{92} = 0.011$", font_size = 35, color = GREEN)
 		text_mle.next_to(dot_mle, RIGHT)
 
-		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to one divided by 92, or one point one percent.") as tracker:
+		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to one divided by 92, or 1.1 percent.") as tracker:
 			self.wait_until_bookmark("A")
 			self.play(
 				Create(dot_mle),

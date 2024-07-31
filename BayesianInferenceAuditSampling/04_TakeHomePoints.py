@@ -39,7 +39,7 @@ class TakeHomePoints(VoiceoverScene):
 		takehome3.next_to(takehome2, DOWN)
 		takehome3.to_edge(LEFT)
 
-		with self.voiceover("And finally, priors shifted more to the left require a lower sample size to come to a similar conclusion as the uniform prior.") as tracker:
+		with self.voiceover("And finally, a prior distribution that is shifted more to the left requires a lower sample size than the uniform prior to come to the same conclusion.") as tracker:
 			self.play(Write(takehome3))
 
 		self.play(

@@ -24,3 +24,4 @@ class Title(VoiceoverScene):
 			FadeOut(title),
 			FadeOut(subtitle)
 		)
+		self.wait()
