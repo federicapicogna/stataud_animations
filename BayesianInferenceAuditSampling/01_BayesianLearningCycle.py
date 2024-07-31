@@ -24,7 +24,7 @@ class BayesianLearningCycle(VoiceoverScene):
 		label = Tex("$n$ = 0", font_size = 60)
 		label.next_to(circle_prior, RIGHT * 6)
 
-		with self.voiceover("The idea of this type of statistics is that you formulate your pre-existing information about the misstatement as a prior distribution.") as tracker:
+		with self.voiceover("The idea of this type of statistics is that you formulate your pre-existing information about the misstatement in the form of a prior distribution.") as tracker:
 			self.play(
 				Create(circle_prior),
 				Write(circle_prior_text),
@@ -56,7 +56,7 @@ class BayesianLearningCycle(VoiceoverScene):
 		circle_post_text = Text("Posterior")
 		circle_post_text.move_to(circle_post)
 
-		with self.voiceover("Using the data, you can update your prior to a posterior distribution. The posterior represents your updated knowledge about the misstatement and acts as your prior distribution for the next observation.") as tracker:
+		with self.voiceover("Using the data, you can update your prior to a posterior distribution. This posterior represents your updated knowledge about the misstatement and acts as your prior distribution for the next observation.") as tracker:
 			self.play(
 				Create(circle_post),
 				Write(circle_post_text)
@@ -105,3 +105,4 @@ class BayesianLearningCycle(VoiceoverScene):
 			FadeOut(circle_post),
 			FadeOut(circle_post_text)
 		)
+		self.wait()

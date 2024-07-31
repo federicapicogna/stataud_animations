@@ -52,14 +52,14 @@ class UniformPrior(VoiceoverScene):
 		prior_a, prior_b = 1, 1
 		distribution = axes.plot(lambda x: stats.beta.pdf(x, prior_a, prior_b), x_range = (0, 1, 0.001), color = WHITE)
 
-		with self.voiceover("Here you can see the uniform prior as a solid line. Since it has equal density at all values, it represents the prior information that every value of the misstatement is equally plausible before seeing any data.") as tracker:
+		with self.voiceover("Here you can see the uniform prior as a solid line. Since it has equal density at all values, it represents the prior information that every value of the population misstatement is equally plausible before seeing any data.") as tracker:
 			self.play(Create(distribution))
 
 		# Label
 		label = Tex("beta($\\alpha$ = 1, $\\beta$ = 1)", font_size = 35)
 		label.next_to(distribution, UP)
 
-		with self.voiceover("Specifically, this prior distribution is a beta distribution with both shape parameters set to one.") as tracker:
+		with self.voiceover("Specifically, this prior distribution is a beta distribution with both parameters set to 1.") as tracker:
 			self.play(Write(label))
 
 		# Subtitle (probability)
@@ -76,7 +76,7 @@ class UniformPrior(VoiceoverScene):
 		area_text = Tex("$p$ = 1", font_size = 40)
 		area_text.move_to(area)
 
-		with self.voiceover("For example, the total probability of observing any value of the misstatement is equal to one.") as tracker:
+		with self.voiceover("For example, the total probability of observing any value of the misstatement is equal to 1.") as tracker:
 			self.play(Create(area))
 			self.play(Write(area_text))
 
@@ -88,10 +88,14 @@ class UniformPrior(VoiceoverScene):
 		new_area_text = Tex("$p$ = 0.95", font_size = 40)
 		new_area_text.move_to(area_text)
 
-		with self.voiceover("By looking at a smaller range of values, the probability of observing these values is adjusted accordingly. For instance, the probability under the area you see here is 95 percent.") as tracker:
-			self.play(Transform(area_text, new_area_text), Transform(area, new_area))
-			self.wait(0.5)
-			self.play(FadeOut(subtitle))
+		with self.voiceover("By looking at a smaller range of values, the probability of observing these values is adjusted accordingly. For instance, <bookmark mark='A'/>the probability under the area you see here is 95 percent.") as tracker:
+			self.wait_until_bookmark("A")
+			self.play(
+				Transform(area_text, new_area_text),
+				Transform(area, new_area)
+			)
+			
+		self.play(FadeOut(subtitle))
 
 		# Subtitle (upper bound)
 		subtitle = Tex("95 percent upper bound ($\\theta_{95}$)", font_size = 40, color = BLUE)
@@ -128,7 +132,7 @@ class UniformPrior(VoiceoverScene):
 		new_label.next_to(new_distribution, UP)
 		new_area = new_axes.get_area(new_distribution, x_range = (0, ub), color = BLUE, opacity = 0.25)
 
-		with self.voiceover("To see how the prior distribution is updated to a posterior distribution, we need to zoom out by extending the <bookmark mark='A'/>vertical axis.") as tracker:
+		with self.voiceover("To see how the prior is updated to a posterior, we need to zoom out by extending the <bookmark mark='A'/>vertical axis.") as tracker:
 			self.wait_until_bookmark("A")
 			self.play(
 				ReplacementTransform(axes, new_axes),
@@ -142,7 +146,7 @@ class UniformPrior(VoiceoverScene):
 		subtitle = Tex("Performance materiality ($\\theta_{max}$)", font_size = 40, color = RED)
 		subtitle.next_to(title, DOWN)
 
-		with self.voiceover("Typically, you want to obtain evidence that the misstatement is lower than a certain threshold. This threshold is called the performance materiality.") as tracker:
+		with self.voiceover("As an auditor, you typically want to obtain sufficient evidence to conclude that the misstatement is lower than a certain threshold. This threshold is called the performance materiality.") as tracker:
 			self.play(Write(subtitle))
 
 		# Line (performance materiality)
@@ -153,7 +157,7 @@ class UniformPrior(VoiceoverScene):
 		text_mat = Tex("$\\theta_{max}$ = 0.05", font_size = 35, color = RED)
 		text_mat.next_to(line_mat, RIGHT)
 
-		with self.voiceover("Suppose the performance materiality is set to 5 percent, which I will mark with <bookmark mark='A'/>this red line.") as tracker:
+		with self.voiceover("Suppose the performance materiality for the population is set to 5 percent, which I will mark with <bookmark mark='A'/>this red line.") as tracker:
 			self.wait_until_bookmark("A")
 			self.play(
 				Create(line_mat),
@@ -189,11 +193,11 @@ class UniformPrior(VoiceoverScene):
 				prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)	
 		
 		k = k + 1
-		with self.voiceover("However, watch what happends if you observe a single misstated item instead of a correct item. <bookmark mark='A'/>Now the upper bound moves to the right.") as tracker:
+		with self.voiceover("However, watch what happends if you observe a single misstated item instead of a <bookmark mark='A'/>correct item. Now the upper bound moves to the right.") as tracker:
 			self.wait_until_bookmark("A")
 			prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distribution, line_ub, text_ub, area, label)
 	
-		with self.voiceover("You might be wondering how many more correct items should you see before the upper bound is below the performance materiality? I will increase the sample size all the way up <bookmark mark='A'/>until this happends.") as tracker:
+		with self.voiceover("You might be wondering how many more correct items you must see before the upper bound is below the performance materiality? I will increase the sample size all the way up <bookmark mark='A'/>until this happends.") as tracker:
 			self.wait_until_bookmark("A")
 			for i in range(83):
 				n = n + 1
@@ -255,7 +259,7 @@ class UniformPrior(VoiceoverScene):
 		# Add rectangle around minimum saple size
 		rectangle = SurroundingRectangle(subtitle[0][0:16], color = YELLOW, buff = 0.1)
 
-		with self.voiceover("This means that a sample of 92 items with one misstatement provides sufficient evidence to conclude that the misstatement is lower than the performance materiality of 5 percent.") as tracker:
+		with self.voiceover("This means that a sample of 92 items with 1 misstatement provides sufficient evidence to conclude that the misstatement is lower than the performance materiality of 5 percent.") as tracker:
 			self.play(Create(rectangle))
 
 		self.play(
@@ -276,7 +280,7 @@ class UniformPrior(VoiceoverScene):
 		text_mle = Tex("$\\theta_{mle} = \\frac{1}{92} = 0.011$", font_size = 35, color = GREEN)
 		text_mle.next_to(dot_mle, RIGHT)
 
-		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to one divided by 92, or 1.1 percent.") as tracker:
+		with self.voiceover("The most likely misstatement is the value of the misstatement with the highest probability<bookmark mark='A'/>. In this case this is equal to 1 divided by 92, or 1.1 percent.") as tracker:
 			self.wait_until_bookmark("A")
 			self.play(
 				Create(dot_mle),
@@ -294,3 +298,4 @@ class UniformPrior(VoiceoverScene):
 			FadeOut(dot_mle),
 			FadeOut(text_mle)
 		)
+		self.wait()

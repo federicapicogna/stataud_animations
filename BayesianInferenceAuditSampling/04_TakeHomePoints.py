@@ -48,3 +48,4 @@ class TakeHomePoints(VoiceoverScene):
 			FadeOut(takehome2),
 			FadeOut(takehome3)
 		)
+		self.wait()
