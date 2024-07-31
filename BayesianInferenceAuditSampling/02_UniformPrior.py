@@ -32,7 +32,7 @@ def prior_to_posterior(self, n, k, prior_a, prior_b, axes, subtitle, distributio
 
 class UniformPrior(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService(transcription_model = 'base'))
+		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Axes
 		axes = Axes(x_range = [0, 1, 0.1], y_range = [0, 4, 1], axis_config = {"color": YELLOW, "include_ticks": True, "include_numbers": True}, tips = False)

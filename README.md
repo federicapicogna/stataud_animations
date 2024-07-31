@@ -9,7 +9,7 @@ To render the videos on your own computer, make sure that you have a working ver
 If you have a working setup and a Python file containing a scene named `NameOfScene.py`, open a terminal in the project folder and type the following command. Once executed, this will render the scene in low quality (`-ql`) and will preview it in the default video player when it is finished (`-p`).
 
 ```
-manim -ql -p NameOfScene.py --disable_caching
+manim -ql -p NameOfScene.py
 ```
 
 ### Rendering a full video in high quality

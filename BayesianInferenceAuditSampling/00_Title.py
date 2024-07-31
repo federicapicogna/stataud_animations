@@ -4,12 +4,12 @@ from manim_voiceover.services.coqui import CoquiService
 
 class Title(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService(transcription_model = 'base'))
+		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Title
 		title = Text("Statistical Auditing", font_size = 75)
 		
-		with self.voiceover("Hi there.") as tracker:
+		with self.voiceover("Welcome.") as tracker:
 			self.play(Write(title), run_time = tracker.duration)
 
 		# Subtitle

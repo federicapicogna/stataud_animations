@@ -4,7 +4,7 @@ from manim_voiceover.services.coqui import CoquiService
 
 class TakeHomePoints(VoiceoverScene):
 	def construct(self):
-		self.set_speech_service(CoquiService(transcription_model = 'base'))
+		self.set_speech_service(CoquiService(transcription_model = 'base', model_name = "tts_models/multilingual/multi-dataset/xtts_v2"))
 
 		# Title
 		title = Text("Take home points", color = WHITE, font_size = 40)
