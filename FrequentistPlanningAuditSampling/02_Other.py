@@ -13,11 +13,11 @@ class Other(VoiceoverScene):
 		title = Text("Other distributions", font_size = 40)
 		title.to_edge(UP)
 		
-		with self.voiceover("As I mentioned at the beginning, the choice of distribution is a matter of preference. Let's explore other distributions that can be used in addition to the binomial distribution.") as tracker:
+		with self.voiceover("As I mentioned at the beginning, the choice of distribution is a matter of preference. Let's explore two other distributions that can be used in addition to the binomial distribution.") as tracker:
 			self.play(Write(title))
 
-		bar_values_binom = [round(stats.binom.pmf(i, 59, 0.01), 4) for i in range(5)]
-		plot_binom = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 1, 0.2], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
+		bar_values_binom = [round(stats.binom.pmf(i, 59, 0.05), 3) for i in range(5)]
+		plot_binom = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 0.4, 0.1], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
 		plot_binom.to_edge(LEFT)
 		plot_binom.shift(LEFT * 0.9)
 		plot_binom.scale(0.6)
@@ -26,7 +26,7 @@ class Other(VoiceoverScene):
 		title_binom = Text("Binomial", font_size = 30)
 		title_binom.next_to(plot_binom, UP)
 
-		with self.voiceover("For comparison, the barplot on the left visualizes the binomial probabilities of observing 0 to 4 misstatements in a sample of 59 items, assuming a true misstatement rate of 5 percent.") as tracker:
+		with self.voiceover("For comparison, the barplot on the left visualizes the binomial probabilities for a sample of 59 items assuming a true misstatement rate of 5 percent.") as tracker:
 			self.play(
 				Write(title_binom),
 				Create(plot_binom),
@@ -34,12 +34,11 @@ class Other(VoiceoverScene):
 				Write(ylab_binom)
 			)
 			self.play(plot_binom.animate.change_bar_values(bar_values_binom))
-			bar_labels_binom = plot_binom.get_bar_labels(color = WHITE, font_size = 20)
+			bar_labels_binom = plot_binom.get_bar_labels(color = WHITE, font_size = 19)
 			self.play(Write(bar_labels_binom))
 			
-
-		bar_values_pois = [round(stats.poisson.pmf(i, 59 * 0.01), 4) for i in range(5)]
-		plot_pois = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 1, 0.2], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
+		bar_values_pois = [round(stats.poisson.pmf(i, 59 * 0.05), 3) for i in range(5)]
+		plot_pois = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 0.4, 0.1], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
 		plot_pois.shift(RIGHT * 0.5)
 		plot_pois.scale(0.6)
 		xlab_pois = plot_pois.get_x_axis_label(Tex("Misstatements ($k$)", color = RED).scale(0.75), edge = DOWN, direction = DOWN, buff = 0.2)
@@ -56,13 +55,13 @@ class Other(VoiceoverScene):
 			)
 			self.play(plot_pois.animate.change_bar_values(bar_values_pois))
 
-		bar_labels_pois = plot_pois.get_bar_labels(color = WHITE, font_size = 20)
+		bar_labels_pois = plot_pois.get_bar_labels(color = WHITE, font_size = 19)
 		
-		with self.voiceover("If we look at the probabilities on the bars, we see that the Poisson distribution requires a slightly larger sample size than the binomial distribution to reduce the probability below 5 percent.") as tracker:
+		with self.voiceover("If we look at the probabilities on the bars, we see that the probability of 0 misstatements is higher than under the binomial distribution. This means that the Poisson distribution requires a slightly larger sample size to reduce this probability below 5 percent.") as tracker:
 			self.play(Write(bar_labels_pois))
 
-		bar_values_hyper = [round(stats.hypergeom.pmf(i, 500, 4, 59), 4) for i in range(5)]
-		plot_hyper = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 1, 0.2], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
+		bar_values_hyper = [round(stats.hypergeom.pmf(i, 500, 25, 59), 3) for i in range(5)]
+		plot_hyper = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 0.4, 0.1], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
 		plot_hyper.to_edge(RIGHT)
 		plot_hyper.shift(RIGHT)
 		plot_hyper.scale(0.6)
@@ -71,7 +70,7 @@ class Other(VoiceoverScene):
 		title_hyper = Text("Hypergeometric", font_size = 30)
 		title_hyper.next_to(plot_hyper, UP)
 
-		with self.voiceover("Lastly, we examine the hypergeometric distribution. The right barplot illustrates the probabilities for this distribution, which is used when sampling without replacement from a finite population.") as tracker:
+		with self.voiceover("Lastly, we examine the hypergeometric distribution. The right barplot illustrates the probabilities for this distribution, which is used to take into account the population size. In this case, the population consists of 400 items.") as tracker:
 			self.play(
 				Write(title_hyper),
 				Create(plot_hyper),
@@ -80,9 +79,9 @@ class Other(VoiceoverScene):
 			)
 			self.play(plot_hyper.animate.change_bar_values(bar_values_hyper))
 
-		bar_labels_hyper = plot_hyper.get_bar_labels(color = WHITE, font_size = 20)
+		bar_labels_hyper = plot_hyper.get_bar_labels(color = WHITE, font_size = 19)
 		
-		with self.voiceover("By showing the probabilities on the bars, we see that the hypergeometric distribution requires a slightly smaller sample size than the binomial distribution for small populations.") as tracker:
+		with self.voiceover("By looking at the probabilities on the bars, we see that the probability of 0 misstatements is lower than under the binomial distribution. This means that the hypergeometric distribution requires a slightly smaller sample size than the binomial distribution. However, this reduction in sample size gets smaller when the population size grows.") as tracker:
 			self.play(Write(bar_labels_hyper))
 
 		self.play(
