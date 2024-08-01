@@ -150,8 +150,14 @@ class Binomial(VoiceoverScene):
 		plot = BarChart(values = [0, 0, 0, 0, 0], y_range = [0, 0.4, 0.1], bar_names = [str(i) for i in range(5)], bar_colors = [BLUE])
 		plot.to_edge(LEFT)
 		plot.shift(RIGHT * 0.5)
-		xlab = plot.get_x_axis_label(Tex("Misstatements ($k$)", color = RED).scale(0.75), edge = DOWN, direction = DOWN, buff = 0.2)
-		ylab = plot.get_y_axis_label(Tex("Probability ($p$)", color = BLUE).scale(0.75).rotate(90 * DEGREES), edge = LEFT, direction = LEFT, buff = 0.4)
+
+		xlab_text = Tex("Misstatements $k$").scale(0.75)
+		xlab_text[0][13].set_color(RED)
+		xlab = plot.get_x_axis_label(xlab_text, edge = DOWN, direction = DOWN, buff = 0.2)
+
+		ylab_text = Tex("Probability $p$").scale(0.75).rotate(90 * DEGREES)
+		ylab_text[0][11].set_color(BLUE)
+		ylab = plot.get_y_axis_label(ylab_text, edge = LEFT, direction = LEFT, buff = 0.4)
 
 		with self.voiceover("It is intuitive to visualize the result of this calculation in this barplot.") as tracker:
 			self.play(
