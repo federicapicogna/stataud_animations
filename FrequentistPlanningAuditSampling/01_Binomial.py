@@ -197,7 +197,7 @@ class Binomial(VoiceoverScene):
 		new_plot = BarChart(values = [stats.binom.pmf(i, 60, 0.03) for i in range(61)], y_range = [0, 0.4, 0.1], bar_colors = [BLUE])
 		new_plot.to_edge(RIGHT)
 
-		with self.voiceover("As you might have noticed, these probabilities do not sum to 1. That is because I have hidden many of the probabilities, either because they are too small or simply not relevant for this explanation. <bookmark mark='A'/>Here you can see the full barplot.") as tracker:
+		with self.voiceover("As you might have noticed, these probabilities do not sum to 1. That is because I have hidden many of the probabilities, either because they are too small or not relevant for this explanation. <bookmark mark='A'/>Here you can see the full barplot.") as tracker:
 			self.play(Transform(formula, create_formula(60, "k", 0.03)))
 			self.wait_until_bookmark("A")
 			self.play(ReplacementTransform(plot, new_plot))

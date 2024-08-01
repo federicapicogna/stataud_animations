@@ -34,6 +34,7 @@ class Other(VoiceoverScene):
 		
 		title_binom = Tex("Binomial ($n$ = 59)", font_size = 25)
 		title_binom.next_to(plot_binom, UP)
+		title_binom[0][9].set_color(GREEN)
 		
 		formula_binom = MathTex("p(X = k) = \\binom{n}{k} \\theta^{k} (1 - \\theta)^{n - k}", font_size = 25)
 		formula_binom.next_to(xlab_binom, DOWN)
@@ -84,6 +85,7 @@ class Other(VoiceoverScene):
 
 		title_pois = Tex("Poisson ($n$ = 59)", font_size = 25)
 		title_pois.next_to(plot_pois, UP)
+		title_pois[0][8].set_color(GREEN)
 
 		formula_pois = MathTex("p(X = k) = \\frac{(\\theta n)^k e^{-\\theta n}}{k!}", font_size = 25)
 		formula_pois.next_to(xlab_pois, DOWN)
@@ -124,6 +126,7 @@ class Other(VoiceoverScene):
 			for i in range(60, 61):
 				bar_values_pois = [round(stats.poisson.pmf(j, i * 0.05), 3) for j in range(5)]
 				new_title_pois = Tex("Poisson ($n$ = " + str(i) + ")", font_size = 25)
+				new_title_pois[0][8].set_color(GREEN)
 				new_title_pois.move_to(title_pois)
 				self.play(
 					Transform(title_pois, new_title_pois),
@@ -151,6 +154,7 @@ class Other(VoiceoverScene):
 		
 		title_hyper = Tex("Hypergeometric ($n$ = 59, $N$ = 400)", font_size = 25)
 		title_hyper.next_to(plot_hyper, UP)
+		title_hyper[0][15].set_color(GREEN)
 
 		formula_hyper = MathTex("p(X = k) = \\frac{\\binom{\\theta N}{k} \\binom{N - \\theta N}{n - k}}{\\binom{N}{n}}", font_size = 25)
 		formula_hyper.next_to(xlab_hyper, DOWN)
@@ -188,11 +192,12 @@ class Other(VoiceoverScene):
 			self.wait_until_bookmark("A")
 			self.play(ReplacementTransform(plot_hyper, new_plot_hyper))
 
-		with self.voiceover("This means that the hypergeometric distribution requires a slightly smaller sample size than the binomial distribution. <bookmark mark='A'/>In this case, a sufficient sample size is 55 items, a reduction of 4 items. However, this reduction in sample size gets smaller when the population size increases.") as tracker:
+		with self.voiceover("This means that the hypergeometric distribution requires a slightly smaller sample size. <bookmark mark='A'/>In this case, a sufficient sample size is 55 items, a reduction of 4 items. However, this reduction in sample size gets smaller when the population size increases.") as tracker:
 			self.wait_until_bookmark("A")
 			for i in range(59, 54, -1):
 				bar_values_hyper = [round(stats.hypergeom.pmf(j, 500, 25, i), 3) for j in range(5)]
 				new_title_hyper = Tex("Hypergeometric ($n$ = " + str(i) + ", $N$ = 400)", font_size = 25)
+				new_title_hyper[0][15].set_color(GREEN)
 				new_title_hyper.move_to(title_hyper)
 				self.play(
 					Transform(title_hyper, new_title_hyper),
