@@ -325,7 +325,7 @@ class Binomial(VoiceoverScene):
 			for i in range(157, 300):
 				bar_values = [round(stats.binom.pmf(0, i, 0.01), 3), round(stats.binom.pmf(1, i, 0.01), 3), round(stats.binom.pmf(2, i, 0.01), 3), round(stats.binom.pmf(3, i, 0.01), 3), round(stats.binom.pmf(4, i, 0.01), 3)]
 				self.play(
-					Transform(formula, create_cumulative_formula_three_two(i, 1, "{:.3f}".format(0.01))),
+					Transform(formula, create_cumulative_formula_three_two(i, 0, "{:.3f}".format(0.01))),
 					plot.animate.change_bar_values(bar_values),
 					run_time = 0.005
 				)
